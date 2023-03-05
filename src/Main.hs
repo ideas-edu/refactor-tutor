@@ -34,6 +34,7 @@ drRef =
                 , services    = metaServiceList dr' ++ rptServiceList ++ serviceList
                 , scripts     = myScripts (curDir </> "ref.txt") exList
             }
+            
         return dr'
 
 myScripts :: HasId a => FilePath -> [a] -> [(Id, FilePath)]

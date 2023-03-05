@@ -2,7 +2,7 @@
 
 module Domain.Refactoring.Rules.LoopRules 
 (removeLoopByCalc, exitLoopEarly,forToForeachRuleCS,forToWhileStrictS ,replaceBreak,
-    pushIfInFor, replaceContinue,storeArrType)
+    pushIfInFor, replaceContinue,storeArrType, foreachToForRule)
 where
 
 import Domain.Refactoring.Util

@@ -19,14 +19,17 @@ var state =
 var exList = [];
 var currExId = null;
 var editor = null;
-var DR_URL = "/cgi-bin/rpt";
+var BASE_URL = "/cgi-bin/";
+var DR_URL = `${BASE_URL}/rpt`;
+var LOGIN_URL = `${BASE_URL}/login`;
 var debug = false;
+var loginRequired = null;
 var hintlevel = -1;
 var userid = "0000";
 var currentExState = ExState.started;
 
-$(document).ready(function () {
-	
+function initRPT() {
+
     if (!retrieveUser())
     {
         return;
@@ -69,7 +72,71 @@ $(document).ready(function () {
         currentExState = ExState.busy;
     });
     
-});
+}
+
+//-----------------------------------------------------------------------------
+// Login page
+
+function getLoginRequired(callback) {
+    $.ajax({
+        url: LOGIN_URL,
+        success: function(r) {
+            try {
+                loginRequired = JSON.parse(r);
+                callback(loginRequired);
+            } catch (f) {
+                $("#err").html("Malformed response");
+                $("#errbox").show();
+                toConsole(f);
+            }
+        },
+        timeout: 100000
+     }).fail(
+         function (f)
+         {
+            $("#err").html("Unknown error");
+            $("#errbox").show();
+            toConsole(f);
+         } 
+     );
+}
+
+function handleLogin()
+{
+    var id = $('#userid').val();
+    if (id.length === 0 || !id.trim() || !isValidId(id.trim()))
+    {
+        $("#err").html('Please provide a valid id');
+        $("#errbox").show();
+        $('#userid').select();
+    }
+    else
+    {
+        login(id)
+    }
+}
+function login(id) {
+    localStorage.setItem("rpt:userid", id);
+    window.location = ".";
+}
+function isValidId(id)
+{
+    if (id.length !== 4)
+    {
+        return false;
+    }
+    var n = parseInt(id);
+    if (isNaN(n))
+    {
+        return false;
+    }
+    var check = n % 10;
+    var m = div(n,10);
+    var sum = ((m % 10) * 3) + ((div(m,10) % 10) * 7) + ((div(m, 100) % 10) * 3);
+    return sum % 10 === check;
+}
+function div (n, m) { return Math.floor(n/m); }
+
 
 //-----------------------------------------------------------------------------
 // State utils
@@ -142,7 +209,7 @@ function toConsole(s)
 {
     if (debug)
     {
-        console.log(res);
+        console.log(s);
     }
 }
 
@@ -802,9 +869,16 @@ function serviceCall(request, successCallback)
         } 
     );   
 }
+
+// Assumes getLoginRequired has been called before
 function retrieveUser()
 {
     var storedUserid = localStorage.getItem("rpt:userid");
+
+    if(!loginRequired) {
+        storedUserid = "0000";
+    }
+
     if(!storedUserid || !isValidId(storedUserid.trim()) )
     {
         window.location="login.html";

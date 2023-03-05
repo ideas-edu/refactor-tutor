@@ -1,6 +1,7 @@
 FROM rpt-builder as builder
 USER user
 WORKDIR /home/user
+ENV GHCUP_INSTALL_BASE_PREFIX=/opt/ghcup
 
 # Create an empty projecr
 RUN bash -ic "stack new rpt; exit"
@@ -29,7 +30,8 @@ RUN apt update; apt install -y libsqlite3-dev zlib1g-dev
 RUN rm -rf /usr/local/apache2/htdocs/*
 COPY ./www /usr/local/apache2/htdocs
 COPY --from=builder /home/user/rpt/.stack-work/dist/x86_64-linux/Cabal-2.4.0.1/build/rpt/rpt /usr/local/apache2/cgi-bin/rpt
-COPY  ./scripts/ref.txt /usr/local/apache2/cgi-bin/ref.txt
+COPY ./.docker/login /usr/local/apache2/cgi-bin/login
+COPY ./scripts/ref.txt /usr/local/apache2/cgi-bin/ref.txt
 RUN chown -R daemon /usr/local/apache2/cgi-bin
 
 # Setup apache2 config

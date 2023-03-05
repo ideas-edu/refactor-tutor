@@ -30,8 +30,11 @@ jobs:
           stack build
 
           cp .stack-work/dist/*/*/build/rpt/rpt rpt
+          cp .docker/login login
+          chmod +x rpt
+          cp scripts/ref.txt ref.txt
           tar czf rpt-web.tar.gz www
-          tar czf rpt-cgi.tar.gz exercises scripts/* rpt
+          tar czf rpt-cgi.tar.gz exercises ref.txt rpt login
 
       - name: Artifact
         uses: actions/upload-artifact@v3

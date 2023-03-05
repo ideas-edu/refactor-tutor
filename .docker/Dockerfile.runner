@@ -1,0 +1,38 @@
+FROM rpt-builder as builder
+USER user
+WORKDIR /home/user
+
+# Create an empty projecr
+RUN bash -ic "stack new rpt; exit"
+WORKDIR /home/user/rpt
+# We need *some* content here to trick cabal into building the empty project
+RUN rm package.yaml; \
+    mkdir -p src/Test; \
+    echo 'main = putStrLn "Hello, world!"' > src/Main.hs; \
+    echo 'main = putStrLn "Hello, world!"' > src/Test/IPTTests.hs;
+
+# Build it, and by doing so cache the libraries into the docker image layer
+COPY --chown=user rpt.cabal stack.yaml ./
+RUN bash -ic "stack build; exit"
+
+# Now we can copy in our own code and build that. If we change anything here we won't have to rebuild all the dependencies every time.
+COPY --chown=user ./src ./src
+RUN bash -ic "stack build; exit"
+
+# Switch to apache2 image and lose the haskell toolchain
+FROM httpd:bullseye as runner
+
+# Install runtime dependencies for ideas
+RUN apt update; apt install -y libsqlite3-dev zlib1g-dev
+
+# Copy in frontend and rpt cgi
+RUN rm -rf /usr/local/apache2/htdocs/*
+COPY ./www /usr/local/apache2/htdocs
+COPY --from=builder /home/user/rpt/.stack-work/dist/x86_64-linux/Cabal-2.4.0.1/build/rpt/rpt /usr/local/apache2/cgi-bin/rpt
+COPY  ./scripts/ref.txt /usr/local/apache2/cgi-bin/ref.txt
+RUN chown -R daemon /usr/local/apache2/cgi-bin
+
+# Setup apache2 config
+COPY ./.docker/httpd.conf /usr/local/apache2/conf/httpd.conf 
+COPY .docker/forward_env_start_httpd /usr/local/apache2/
+ENTRYPOINT ["/usr/local/apache2/forward_env_start_httpd"]

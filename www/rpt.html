@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<title>Refactor Tutor</title>
+		<meta name="description" content="" />
+		<meta name="author" content="KGH" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+          <script>
+                if(!localStorage.getItem("rpt:userid"))
+                {
+                    window.location = ".";
+                }
+          </script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <script src="https://kit.fontawesome.com/76fd4e272c.js" crossorigin="anonymous"></script>
+        
+        <style type="text/css" media="screen">
+            #editor { width: 600px; height: 350px; }
+            .page-header { margin-top: 20px; }
+            li, ul { list-style-type: square }
+            .modal-backdrop { opacity:0.4 !important;}
+            .editorWidth {  width: 600px; }
+        </style>
+	</head>
+
+	<body>
+
+        <div class="container">
+        
+           <div class="row">
+                <div class="col mt-3">
+                    <img src="img/windesheim.png" height="40" class="float-right mr-3">
+                    <img src="img/ou.png" height="40" class="float-right mr-3">
+                    <img src="img/uu.png" height="40" class="float-right mr-3">
+                </div>
+            </div>
+
+            <div class="page-header mb-4 row">
+                
+                <div class="col-8">
+                    <h2><strong><i class="fas fa-laptop-code" aria-hidden="true"></i></span> Refactor Tutor</strong></h2>
+                </div>
+
+                <div class="col-4 text-right">
+                    <span class="text-muted" id="useridtext"></span>
+                    <a href="#" onclick="localStorage.removeItem('rpt:userid'); window.location='.';" class="badge badge-secondary">change</a>
+                </div>
+        
+            </div>
+
+            <!-- Exercise selection TOP -->
+            <!--        
+            <div class="form-group row">
+                <label for="ex" class="col-sm-3 col-form-label"><h5>Choose exercise:</h5></label>
+                <div class="col-s-3">
+                    <select class="form-control" id="exlist">
+                        <option>No exercises</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <button id="loadex" class="btn btn-success btn-block">Start exercise</button>
+                </div>
+            </div>-->
+      
+            <div class="row">
+            
+                <div class="col-xs-6 col-md-4">
+                    
+                    <!-- Exercise selection -->
+                    <div class="border-bottom mb-3 border-secondary">
+                        <div class="form-group">
+                            <h5><label for="ex">Choose exercise:</label></h5>
+                            <select class="form-control" id="exlist">
+                                <option>No exercises</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button id="loadex" class="btn btn-success btn-lg btn-block">Start exercise</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Exercise description -->
+                    <h6 id="exname"></h6>
+                    <p id="exdesc"></p>
+
+                    <!-- Dev buttons --> 
+                    <button id="toggleDebug" type="button" class="btn btn-info" data-toggle="button">debug mode</button>
+                    <br>
+                    <button id="gethint" class="btn btn-warning mb-2">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i> Hint
+                    </button>
+                    
+                    <button id="gethints" class="btn btn-warning mb-2">
+                         <i class="fa fa-list" aria-hidden="true"></i> All hints
+                    </button>
+                    <br>
+                    <button id="dostep" class="btn btn-info mb-2">
+                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Show next step
+                    </button>
+
+                    
+                </div>
+            
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    
+                    <!-- Code editor -->
+                    <div class="form-group">
+                        <h5><label for="input">Type code here:</label></h5>
+                       
+                        <div id="editor" class="form-control">// code</div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="form-group sb-4">
+
+                        <button id="submitr" class="btn btn-primary mb-2" style="width:155px">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i> Check progress
+                        </button>
+
+                        <button id="gethinttree" class="btn btn-primary mb-2" style="width:115px">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i> Get hints 
+                        </button>
+
+                        <span class="badge badge-primary m-0" style="background-color:darkorange" id="stepsleft">There are..</span>
+                    </div>
+                    
+                    <!-- Feedback -->
+                    <div class="alert alert-success editorWidth" id="done">
+                         <i class="fa fa-thumbs-up" aria-hidden="true"></i> Well done, no more improvements left. You can go to the next exercise!
+                    </div>
+
+                    <div class="form-group editorWidth" id="msgs">
+                        <div class="alert" id="feedbackbox" >
+                            <span id="feedbacktext"></span>
+                        </div>
+                    </div>
+                    
+                    <div id="tree1"></div>
+                </div>
+                <textarea id="debug" class="form-control" rows="12" style="font-family:monospace;font-size:12px;"> </textarea>
+            </div>
+
+           
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal" tabindex="-1" role="dialog" id="sureNewEx">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <!--<div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>-->
+                  <div class="modal-body">
+                    <p>When starting a new exercise, you will lose your progress.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="continueNewEx" type="button" class="btn btn-primary">Continue</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Stay with current exercise</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-2.0.3.min.js"
+            integrity="sha256-sTy1mJ4I/LAjFCCdEB4RAvPSmRCb3CU7YqodohyeOLo="
+            crossorigin="anonymous"></script>
+        <!-- Ace code editor -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="ipt.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <!--<script src="tree.jquery.js"></script>-->
+
+
+	</body>
+</html>

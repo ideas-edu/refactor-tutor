@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<title>Refactor Tutor</title>
+		<meta name="description" content="" />
+		<meta name="author" content="KGH" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <script src="https://kit.fontawesome.com/76fd4e272c.js" crossorigin="anonymous"></script>
+        
+        <style type="text/css" media="screen">
+            .page-header { margin-top: 20px; }
+        </style>
+	</head>
+
+	<body>
+        
+        <div class="container">
+            <div class="d-flex justify-content-center h-100 mt-5">
+            <div class="card" style="width:405px">
+                <div class="card-header">
+                    <h3>Login to <i class="fas fa-laptop-code" aria-hidden="true"></i></span> Refactor Tutor</h3>
+                    We log interactions with the tutor for research purposes. 
+                    We will never disclose individual user data.
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="user id" id="userid">
+                            
+                        </div>
+                        <!--<div class="row align-items-center mb-3">
+                            <input type="checkbox" style="margin-left: 15px">Remember Me
+                        </div> //-->
+                        <div class="form-group">
+                            <input type="button" value="Login" class="btn float-left btn-primary" id="login">
+
+                            <div class="alert alert-danger float-right" id="errbox" >
+                                    <span id="err"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer" style="background: white">
+                    <img src="img/windesheim.png" height="37" class="mr-3">
+                    <img src="img/ou.png" height="37" class="mr-3">
+                    <img src="img/uu.png" height="37" class="mr-3">
+                </div>
+            </div>
+        </div>
+    </div>
+   
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-2.0.3.min.js"
+            integrity="sha256-sTy1mJ4I/LAjFCCdEB4RAvPSmRCb3CU7YqodohyeOLo="
+            crossorigin="anonymous"></script>
+        
+        <script>
+            
+            $(document).ready(function () {
+                $("#errbox").hide();
+                $("#login").click(login);
+                $('#userid').keypress(function(ev) {
+                    if(ev.which == '13'){
+                        login();
+                        return false;
+                    }
+                });
+            });
+
+            function login()
+            {
+                var id = $('#userid').val();
+                if (id.length === 0 || !id.trim() || !isValidId(id.trim()))
+                {
+                    $("#err").html('Please provide a valid id');
+                    $("#errbox").show();
+                    $('#userid').select();
+                }
+                else
+                {
+                    localStorage.setItem("rpt:userid", id);
+                    window.location = "rpt.html";
+                }
+            }
+            function isValidId(id)
+            {
+                if (id.length !== 4)
+                {
+                    return false;
+                }
+                var n = parseInt(id);
+                if (isNaN(n))
+                {
+                    return false;
+                }
+                var check = n % 10;
+                var m = div(n,10);
+                var sum = ((m % 10) * 3) + ((div(m,10) % 10) * 7) + ((div(m, 100) % 10) * 3);
+                return sum % 10 === check;
+            }
+            function div (n, m) { return Math.floor(n/m); }
+
+        </script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+      
+	</body>
+</html>

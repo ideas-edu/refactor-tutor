@@ -1,3 +1,7 @@
+# This file is here to help the haskell language server
+# figure out how these two cabal projects are laid out
+# (it has a hard time since they're nested).
+
 cradle:
   stack:
     - path: "./src/Main.hs"

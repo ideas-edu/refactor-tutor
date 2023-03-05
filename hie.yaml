@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src/Main.hs"
+      component: "rpt:exe:rpt"
+
+    - path: "./src/Test/Tests.hs"
+      component: "rpt:test:tests"

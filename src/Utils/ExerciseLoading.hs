@@ -15,18 +15,27 @@ import Control.Monad
 import System.Directory
 import System.FilePath
 
+import Debug.Trace
+import Data.List (isPrefixOf)
+
 --------------------------------------------------------------------------------
 -- Loading exercise files
 
 
-            
+
 loadExercisesFromFolder :: (FilePath -> IO (Maybe (Exercise a))) -> FilePath -> IO [Exercise a]
 loadExercisesFromFolder f filePath = do
     dirExists <- doesDirectoryExist filePath
     if dirExists
-        then 
+        then do
+            -- get all folders
+            folders <- listSubFolders filePath
+
+            -- filter out folders that start with '.'
+            let filtered = filter (not . isPrefixOf "." . takeFileName) folders
+
             -- create an exercise for each subfolder, return only valid results
-            liftM catMaybes $ listSubFolders filePath >>= mapM f
+            catMaybes <$> mapM f filtered
         else return []
 
 -- | Loading a config file
@@ -35,13 +44,13 @@ loadConfig :: FilePath -> IO (Maybe ExerciseSettings)
 loadConfig _ = return Nothing
 
 loadExDescription :: FilePath -> IO String
-loadExDescription dir = 
-        readFileIfExists (combine dir "description.txt") 
-    >>= return . fromMaybe "no description" 
+loadExDescription dir =
+        readFileIfExists (combine dir "description.txt")
+    >>= return . fromMaybe "no description"
 
 -- TODO load test cases
 loadRefExFromFolder :: FilePath -> IO (Maybe (Exercise ClassMember))
-loadRefExFromFolder exFolder = 
+loadRefExFromFolder exFolder =
     do
         -- load description
         exDesc <- loadExDescription exFolder
@@ -50,7 +59,7 @@ loadRefExFromFolder exFolder =
         tests <- loadTests exFolder
         -- load start program
         cm <- readClassMember (exFolder </> "start.java")
-        let rei scm = emptyRefExInput { testCases = tests, startCM = scm } 
+        let rei scm = emptyRefExInput { testCases = tests, startCM = scm }
             sett    = refEx { uid = newId (takeFileName exFolder), exDescription = exDesc }
         return $ fmap (\scm -> makeRefactorExercise (rei scm) sett) cm
 
@@ -60,9 +69,9 @@ loadRefExercises = loadExercisesFromFolder loadRefExFromFolder
 
 loadTests :: FilePath -> IO [TestCase]
 loadTests fp = do
-    testFile <- readFileIfExists (fp </> "tests.txt") 
+    testFile <- readFileIfExists (fp </> "tests.txt")
     return $ maybe [] parseTests testFile
     where
-        parseTests = catMaybes . map parseTest . lines 
-    
+        parseTests = catMaybes . map parseTest . lines
+
 

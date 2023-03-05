@@ -1,0 +1,39 @@
+cabal-version:  2.2
+name:           rpt
+version:        0.1
+build-type:     Simple
+author:         Hieke Keuning <h.w.keuning@uu.nl>
+
+common deps
+  build-depends:   base >= 4,
+                   ideas,
+                   containers,
+                   uniplate,
+                   time,
+                   wl-pprint,
+                   array,
+                   pretty,
+                   parsec,
+                   mtl,
+                   filepath,
+                   directory,
+                   bytestring,
+                   process,
+                   split
+  ghc-options:     -Wall
+                   -Wno-missing-home-modules
+  hs-source-dirs:  src
+                   
+executable rpt
+  import:          deps
+  main-is:         Main.hs
+
+test-suite tests
+  import:          deps
+  type:            exitcode-stdio-1.0
+  main-is:         Tests.hs
+  build-depends:   HTF,
+                   QuickCheck,
+                   HUnit
+  hs-source-dirs:  src/Test
+

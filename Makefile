@@ -1,7 +1,7 @@
 all: start-server
 
 DOCKER := sudo docker
-LOGIN_ENABLED := true
+LOGIN_ENABLED := false
 
 build-builder:
 	$(DOCKER) build . -f .docker/Dockerfile.builder -t rpt-builder

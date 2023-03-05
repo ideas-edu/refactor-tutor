@@ -7,13 +7,6 @@
 		<meta name="description" content="" />
 		<meta name="author" content="KGH" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-          <script>
-                if(!localStorage.getItem("rpt:userid"))
-                {
-                    window.location = ".";
-                }
-          </script>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
@@ -46,9 +39,9 @@
                     <h2><strong><i class="fas fa-laptop-code" aria-hidden="true"></i></span> Refactor Tutor</strong></h2>
                 </div>
 
-                <div class="col-4 text-right">
+                <div class="col-4 text-right" id="currentuser">
                     <span class="text-muted" id="useridtext"></span>
-                    <a href="#" onclick="localStorage.removeItem('rpt:userid'); window.location='.';" class="badge badge-secondary">change</a>
+                    <a href="login.html" class="badge badge-secondary">change</a>
                 </div>
         
             </div>
@@ -175,9 +168,20 @@
             crossorigin="anonymous"></script>
         <!-- Ace code editor -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js" type="text/javascript" charset="utf-8"></script>
-        <script src="ipt.js"></script>
+        <script src="rpt.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <!--<script src="tree.jquery.js"></script>-->
+        <script>
+            $(document).ready(function(){
+                getLoginRequired(function(r){
+                    if(!r) {
+                        $("#currentuser").hide();
+                    }
+
+                    initRPT();
+                });
+            });
+        </script>
 
 
 	</body>

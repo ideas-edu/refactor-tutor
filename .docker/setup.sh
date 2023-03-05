@@ -19,8 +19,8 @@ export BOOTSTRAP_HASKELL_ADJUST_BASHRC=true
 
 # Make sure we have an user with uid 100
 USER_ID=1000
-id $USER_ID > /dev/null 2>&1
-if [ ! $? ]; then
+id $USER_ID
+if [ $? -ne 0 ]; then
   useradd -u $USER_ID -m user
 fi
 
@@ -34,10 +34,6 @@ cd $HOME
 export GHCUP_INSTALL_BASE_PREFIX=/opt/ghcup
 mkdir -p $GHCUP_INSTALL_BASE_PREFIX
 chown -R $USER:$USER $GHCUP_INSTALL_BASE_PREFIX
-
-env
-pwd
-ls -lah .
 
 # Install GHCup
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sudo -Eu $USER sh

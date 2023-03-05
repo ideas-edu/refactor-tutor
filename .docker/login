@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "content-type: text/html"
+echo ""
+
+# Doing the true/false if here to make sure that output of this file
+# stays consistent no matter the value of the LOGIN_ENABLED environment
+# variable. E.g. it might contain False instead of false.
+if [ "$LOGIN_ENABLED" = "true" ]; then
+  echo true
+else
+  echo false
+fi

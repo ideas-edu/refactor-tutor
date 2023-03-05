@@ -61,52 +61,26 @@
         <script src="https://code.jquery.com/jquery-2.0.3.min.js"
             integrity="sha256-sTy1mJ4I/LAjFCCdEB4RAvPSmRCb3CU7YqodohyeOLo="
             crossorigin="anonymous"></script>
+        <script src="rpt.js"></script>
         
         <script>
             
             $(document).ready(function () {
+                getLoginRequired(function(r){
+                    if(!r) {
+                        window.location = ".";
+                    }
+                });
+
                 $("#errbox").hide();
-                $("#login").click(login);
+                $("#login").click(handleLogin);
                 $('#userid').keypress(function(ev) {
                     if(ev.which == '13'){
-                        login();
+                        handleLogin();
                         return false;
                     }
                 });
             });
-
-            function login()
-            {
-                var id = $('#userid').val();
-                if (id.length === 0 || !id.trim() || !isValidId(id.trim()))
-                {
-                    $("#err").html('Please provide a valid id');
-                    $("#errbox").show();
-                    $('#userid').select();
-                }
-                else
-                {
-                    localStorage.setItem("rpt:userid", id);
-                    window.location = "rpt.html";
-                }
-            }
-            function isValidId(id)
-            {
-                if (id.length !== 4)
-                {
-                    return false;
-                }
-                var n = parseInt(id);
-                if (isNaN(n))
-                {
-                    return false;
-                }
-                var check = n % 10;
-                var m = div(n,10);
-                var sum = ((m % 10) * 3) + ((div(m,10) % 10) * 7) + ((div(m, 100) % 10) * 3);
-                return sum % 10 === check;
-            }
-            function div (n, m) { return Math.floor(n/m); }
 
         </script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>

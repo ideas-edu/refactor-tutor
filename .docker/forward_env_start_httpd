@@ -1,0 +1,11 @@
+#!/bin/sh
+
+env
+
+env \
+  | grep "^RPT_"  \
+  | sed -e 's/^RPT_//g' \
+  | awk -F'=' '{print "SetEnv",$1,$2}' \
+  | tee -a /usr/local/apache2/conf/httpd.conf
+
+httpd-foreground

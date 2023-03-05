@@ -1,0 +1,170 @@
+string ok        = Correct
+string incorrect = This is incorrect. 
+string finished  = The program is already fully refined.
+string noteq     = The output is incorrect
+string youRewroteInto = You rewrote @diffbefore into @diffafter. 
+string appliedRule    = You have introduced @recognized correctly.
+string pressBack      = Press the Back button and try again.
+string unknown   = We lost you?
+
+string suggested 
+   | @hasexpected = However, the standard strategy suggests to use @expected.
+   | true         = However, the standard strategy suggests a different step.
+
+string askForHint 
+   | not @oldready = You may ask for a hint.
+   | true          = {} # empty text
+
+# -------------------------------------------------------------
+# Feedback
+
+
+feedback same = {
+   You haven't made any progress
+}
+
+feedback noteq    = xx
+feedback unknown  = @unknown
+feedback ok       = @ok @appliedRule
+feedback buggy    = {@incorrect @recognized}
+feedback detour   = @appliedRule This is correct. @suggested
+feedback correct  = This is correct
+feedback expected = You just did x
+feedback same     = Hetzelfde
+
+feedback hint    
+   | @hasexpected = @expected
+   | true         = There are no more hints!
+   
+feedback step 
+   | @hasexpected = @aftertext
+   | true         = There are no more hints!
+
+feedback desc     = @actives
+
+# top level 
+feedback all            = Can you make some improvements?
+
+# Boolean
+feedback boolexprrefs   = Can you simplify a boolean expression?
+feedback equalsTrue     = == true may be removed
+feedback equalsFalse    = == false may be replaced with !
+feedback notEqualsTrue  = Not equals true can be shortened
+feedback notEqualsFalse = Not equals false can be shortened
+feedback doubleNeg      = Not not is the same as?
+feedback idemAnd        = We don't need the && if both sides are the same
+feedback idemOr         = We don't need the || if both sides are the same
+
+feedback distrAnd.1     = Distribution
+feedback distrAnd.2     = Distribution
+feedback distrOr.1      = Distribution
+feedback distrOr.2      = Distribution
+
+feedback absorbAnd      = Can we shorten a complex expression?
+feedback absorbOr       = Can we shorten a complex expression?
+
+feedback simplifyAnd.1  = Do we need the && true?
+feedback simplifyAnd.2  = What does the && false means?
+feedback simplifyAnd.3  = Can an expression be true and false at the same time?
+feedback simplifyOr.1   = What does the || true means?
+feedback simplifyOr.2   = Do we need the || false?
+feedback simplifyOr.3   = Is there an expression that is always true?
+
+feedback notTrue        = Not true is?
+feedback notFalse       = Not false is?
+feedback simplifyComposed.1 = Do we need the negated expression?
+feedback simplifyComposed.2 = Do we need the negated expression?
+feedback simplifyComposed.3 = Shorten the part between the brackets
+feedback simplifyComposed.4 = Shorten the part between the brackets
+
+feedback buggyEqualsTrue = This is not true, ==true should be removed!
+
+# Arithmetic
+feedback arithexprrefs       = Can you improve a calculation?
+
+feedback introduceCompoundS    = Do you know a shorter way to write a calculation?
+feedback introduceIncrement    = Can you use the ++ operator?
+feedback introduceCompoundOp.1 = Can you use the += operator?
+feedback introduceCompoundOp.2 = Can you use the -= operator?
+feedback introduceCompoundOp.3 = Can you use the *= operator?
+feedback introduceCompoundOp.4 = Can you use the /= operator?
+
+feedback improveEvenCheckS   = Can you rewrite the even check?
+feedback improveEvenCheck    = Rewrite the even check using the == operator
+
+feedback pushNot             = Can you improve a negated (! (..) ) expression by changing operators?
+feedback pushNot.1           = Remove the ! by changing the == operator
+feedback pushNot.2           = Remove the ! by changing the != operator
+feedback pushNot.3           = Remove the ! by changing the > operator
+feedback pushNot.4           = Remove the ! by changing the >= operator
+feedback pushNot.5           = Remove the ! by changing the <= operator
+feedback pushNot.6           = Remove the ! by changing the < operator
+
+# Conditionals
+
+feedback conditionalS          = Can you do something about an if-else statement?
+feedback removeRedundantIfElse = Do you still need the if-else?
+feedback reverseNegIfElse      = Could you reverse the if-else so the negated condition is no longer needed?
+feedback reverseIfElse         = Could you reverse the if-else?
+feedback removeEmptyIfS        = Could you change the if-else so we don't have an empty if?
+feedback removeEmptyIf         = If you negate the condition, you can reverse the if-else and remove the empty else
+feedback removeEmptyElse       = The empty else can be removed
+feedback simplifyIfWithDuplicationS = There is some duplication, can you simplify the if-statements to remove it?
+feedback simplifyif.1          = Can you combine the conditions, so you only need 1 if?
+feedback simplifyif.2          = Can you combine the conditions, so you don't need the nested if anymore?
+feedback simplifyif.3          = Can you combine the conditions, so you don't need the nested if anymore?
+feedback simplifyif.4          = Can you combine the conditions, so you only need 1 if?
+
+feedback removeUselessIfS      = Do we need the if-statement?
+feedback removeUselessIf.1     = The if can be removed because it is empty
+feedback removeUselessIf.2     = The condition in the if is always true, so we don't need the if
+feedback removeUselessIf.3     = The condition in the if is always false, so the body will never be executed
+
+feedback removeUselessIfElseS      = Do we need the if-else-statement?
+feedback removeUselessIfElse.2     = The condition in the if is always true, so we don't need the if-else
+feedback removeUselessIfElse.3     = The condition in the if is always false, so we don't need the if-else
+feedback removeUselessIfElse.1     = The if-else can be removed because it is empty
+
+feedback removeUselessCheckS   = Can you find an else-if condition that is not necessary?
+feedback removeUselessCheck.1  = We don't need the check in the else-if, because we know it will be true
+feedback removeUselessCheck.2  = We don't need the check in the else-if, because we know it will be true. We can also remove the final else, because it will never be true
+feedback removeUselessCheck.3  = We don't need the check in the else-if, because we know it will be true
+feedback removeUselessCheck.4  = We don't need the check in the else-if, because we know it will be true. We can also remove the final else, because it will never be true
+
+feedback removeUnneededIfConditionsS = Can you simplify the condition in the if?
+feedback removeUnneededIfConditionsR = Use a different comparison operator to avoid useless calculations
+feedback collapseif.1           = Combine the nested ifs into one if
+feedback collapseif.2           = Collapse if
+feedback buggyCollapseIf.2      = Buggy Collapse if
+feedback replacecompoundop      = Replace compound operator
+feedback buggyCollapseIf        = You incorrectly combined two if-conditions!
+
+feedback extractfromifS         = Can we extract some statements from an if-else?
+feedback extractfromif          = If a statement is in both the if-part and the else-part, we can move it outside the if-else
+
+# loops
+feedback forToForeachS          = Can you find another loop type that is more suitable?
+feedback forToForeach           = Can you replace the for-loop by a foreach-loop?
+feedback forToWhileS            = Can you find another loop type that is more suitable?
+feedback forToWhile             = Can you replace the for-loop by a while-loop?
+feedback removeLoopByCalc       = Do we really need the loop to do this calculation?
+feedback exitLoopEarly          = Can we immediately exit from the loop once we're done?
+feedback exitLoopEarlyCond      = Can we add a variable to the condition of the loop?
+feedback exitLoopEarlyBreak     = Can we add a test to the condition of the loop?
+feedback replaceBreak           = Can you replace the break by adding a condition to the loop?
+feedback replaceContinue        = replace continue
+#
+
+feedback removeAssignToSelfS = You're assigning a variable to itself, is that useful?
+feedback removeassigntoself  = You can remove the self-assignment
+feedback removeEmptyStats    = Semicolons (;) without a statement can be removed
+feedback removeEmptyStatsL   = Semicolons (;) without a statement can be removed
+feedback removeEmptyStatsF   = Semicolons (;) without a statement can be removed
+
+# return
+feedback removeReturnCondS          = Can you optimise the return?
+feedback removeIfElseReturnCond     = Can you remove the if-else and use its condition in the return?
+feedback removeIfReturnCond         = Can you remove the if and use its condition in the return?
+feedback removeBoolReturnVar        = Can you remove the if-else and use its condition in the return?
+
+# keep empty line at end

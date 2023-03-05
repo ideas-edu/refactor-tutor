@@ -1,0 +1,4 @@
+{ "method" : "generate"
+, "params" : ["logic.dnf", "medium", "bastiaan"]
+, "id"     : 421
+}

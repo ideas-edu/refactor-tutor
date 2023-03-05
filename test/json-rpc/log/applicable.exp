@@ -1,0 +1,36 @@
+{ "result":
+    [ { "name": "falsezeroor.inv"
+      , "buggy": false
+      , "arguments": 0
+      , "rewriterule": true
+      }
+    , { "name": "logic.propositional.demorganor"
+      , "buggy": false
+      , "arguments": 0
+      , "rewriterule": true
+      }
+    , { "name": "logic.propositional.invidempand"
+      , "buggy": false
+      , "arguments": 0
+      , "rewriterule": false
+      }
+    , { "name": "logic.propositional.invidempor"
+      , "buggy": false
+      , "arguments": 0
+      , "rewriterule": false
+      }
+    , { "name": "notnot.inv"
+      , "buggy": false
+      , "arguments": 0
+      , "rewriterule": true
+      }
+    , { "name": "truezeroand.inv"
+      , "buggy": false
+      , "arguments": 0
+      , "rewriterule": true
+      }
+    ]
+, "error": null
+, "id": 421
+, "version": "1.6 (893c5ef99623f5741cb221bd14b52c17d133cc69)"
+}

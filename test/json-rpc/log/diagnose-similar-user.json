@@ -1,0 +1,4 @@
+{ "method" : "diagnose"
+, "params" : [["logic.dnf", "[]", "p || (q || r)", "", ["bastiaan", "session", "exercise1"]], "(p || q) || r"]
+,"id":"84"
+}

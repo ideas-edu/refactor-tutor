@@ -1,0 +1,4 @@
+{ "method" : "diagnose"
+, "params" : [["logic.propositional.cnf", "[]", "p || (q /\\ r)", ""], "(p||q) /\\ (p ||r)"]
+,"id":"84"
+}

@@ -1,0 +1,55 @@
+{ "result":
+    {"Tree":
+       [ "all"
+       , "label"
+       , [ {"Tree":
+              [ "removeassigntoselfs"
+              , "label"
+              , [{"Tree":
+                    [ ""
+                    , "hint"
+                    , [{"Tree":
+                          [ ""
+                          , "step"
+                          , []
+                          ]}]
+                    ]}]
+              ]}
+         , {"Tree":
+              [ "arithexprrefs"
+              , "label"
+              , [ {"Tree":
+                     [ ""
+                     , "hint"
+                     , [{"Tree":
+                           [ ""
+                           , "step"
+                           , []
+                           ]}]
+                     ]}
+                , {"Tree":
+                     [ "introducecompounds"
+                     , "label"
+                     , [{"Tree":
+                           [ ""
+                           , "hint"
+                           , [{"Tree":
+                                 [ ""
+                                 , "step"
+                                 , []
+                                 ]}]
+                           ]}]
+                     ]}
+                ]
+              ]}
+         , {"Tree":
+              [ ""
+              , "hint"
+              , [{"Tree":
+                    [ ""
+                    , "step"
+                    , []
+                    ]}]
+              ]}
+         ]
+       ]}

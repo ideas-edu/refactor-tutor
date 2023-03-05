@@ -1,0 +1,19 @@
+{ "result":
+    {"detour":
+       [ {"ready": false}
+       , [ "logic.propositional.dnf"
+         , "[]"
+         , "~(~p /\\ ~q)"
+         , {}
+         , [ "bastiaan"
+           , "session"
+           , "exercise1"
+           ]
+         ]
+       , []
+       , "logic.propositional.demorganor"
+       ]}
+, "error": null
+, "id": "84"
+, "version": "1.8 (6ed63bb8d0f08b17fcedc033b06da0d3fc2018a1)"
+}

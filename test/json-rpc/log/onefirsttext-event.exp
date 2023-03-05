@@ -1,0 +1,12 @@
+{ "result":
+    [ "Use De Morgan."
+    , [ "logic.propositional.dnf"
+      , "[0,1,4,1]"
+      , "~~x /\\ ~~y"
+      , {}
+      ]
+    ]
+, "error": null
+, "id": 421
+, "version": "1.3 (7519)"
+}

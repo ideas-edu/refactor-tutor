@@ -1,0 +1,10 @@
+{ "result":
+    [ "logic.propositional.proof.unicode"
+    , "[]"
+    , "(p ∧ q) → p == T"
+    , {}
+    ]
+, "error": null
+, "id": 421
+, "version": "1.2.1.1 (7137)"
+}

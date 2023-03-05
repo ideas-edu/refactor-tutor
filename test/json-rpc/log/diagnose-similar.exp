@@ -1,0 +1,13 @@
+{ "result":
+    {"similar":
+       [ {"ready": true}
+       , [ "logic.propositional.dnf"
+         , "[]"
+         , "p || q || r"
+         , {}
+         ]
+       ]}
+, "error": null
+, "id": "84"
+, "version": "1.2 (6070)"
+}

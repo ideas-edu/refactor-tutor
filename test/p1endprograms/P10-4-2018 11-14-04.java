@@ -1,0 +1,1 @@
+return values.Sum(value => !positivesOnly || (positivesOnly && value >= 0));

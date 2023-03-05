@@ -1,0 +1,4 @@
+{ "method" : "generate"
+, "params" : ["logic.dnf", "easy"]
+, "id"     : 421
+}

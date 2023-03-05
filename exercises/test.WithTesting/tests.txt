@@ -1,0 +1,4 @@
+{1,2,3,4,5} -> 1 -> Return the first element.
+{8} -> 8
+{5,4,3} -> 5
+{} -> -1 -> The empty list is a special case.

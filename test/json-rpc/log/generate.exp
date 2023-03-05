@@ -1,0 +1,10 @@
+{ "result":
+    [ "logic.propositional.dnf"
+    , "[]"
+    , "(~T /\\ ~q) -> (~q /\\ p)"
+    , {}
+    ]
+, "error": null
+, "id": 421
+, "version": "1.4 (8775)"
+}

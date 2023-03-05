@@ -1,0 +1,14 @@
+{ "result":
+    {"wrongrule":
+       [ {"ready": false}
+       , [ "logic.propositional.dnf"
+         , "[]"
+         , "~(~p || q)"
+         , {}
+         ]
+       , "logic.propositional.demorganor"
+       ]}
+, "error": null
+, "id": "84"
+, "version": "1.2 (6070)"
+}

@@ -1,0 +1,12 @@
+{ "method" : "diagnose"
+, "params" : [ [ "logic.propositional.dnf"
+               , "[]"
+               , "~(p || r) <-> ~~q"
+               , {}
+               , [ "bastiaan"
+                 , "4e33401fb1f759705465"
+                 , "~(p || r) <-> ~~q"
+                 ]
+               ], "~(p || r) <-> q" ]
+, "id"     : 421
+}

@@ -1,0 +1,4 @@
+{ "method" : "example"
+, "params" : ["logic.dnf", 3, "bastiaan"]
+, "id"     : 421
+}

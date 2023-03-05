@@ -1,0 +1,58 @@
+{ "result":
+    [ { "exerciseid": "logic.propositional.cnf"
+      , "description": "Proposition to CNF"
+      , "status": "Stable"
+      }
+    , { "exerciseid": "logic.propositional.cnf.unicode"
+      , "description": "Proposition to CNF (unicode support)"
+      , "status": "Stable"
+      }
+    , { "exerciseid": "logic.propositional.consequence"
+      , "description": "Prove that formula is a logical consequence of a set of formulas"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.dnf"
+      , "description": "Proposition to DNF"
+      , "status": "Stable"
+      }
+    , { "exerciseid": "logic.propositional.dnf.unicode"
+      , "description": "Proposition to DNF (unicode support)"
+      , "status": "Stable"
+      }
+    , { "exerciseid": "logic.propositional.inductive"
+      , "description": "Inductive proofs"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.inductive-en"
+      , "description": "Inductive proofs"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.inductive-guided"
+      , "description": "Inductive proofs"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.inductive-guided-en"
+      , "description": "Inductive proofs"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.logax"
+      , "description": "Axiomatic proofs"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.proof"
+      , "description": "Prove two propositions equivalent"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.proof.top"
+      , "description": "Prove two propositions equivalent (with top-level decomposition)"
+      , "status": "Experimental"
+      }
+    , { "exerciseid": "logic.propositional.proof.unicode"
+      , "description": "Prove two propositions equivalent (unicode support)"
+      , "status": "Experimental"
+      }
+    ]
+, "error": null
+, "id": 421
+, "version": "1.8.1 (27a352d26571dad5913f9786c09ce5cda3021793)"
+}

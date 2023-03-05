@@ -1,0 +1,15 @@
+{ "method" : "log"
+, "params" : [ [ "logic.propositional.dnf"
+               , "[]"
+               , "~(p || r) <-> ~~q"
+               , {}
+               , [ "bastiaan"
+                 , "4e33401fb1f759705465"
+                 , "~(p || r) <-> ~~q"
+                 ]
+               ]
+             , "extra informatie maak niet uit"
+             , 42
+             ]
+, "id"     : 421
+}

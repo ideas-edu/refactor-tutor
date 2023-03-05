@@ -1,0 +1,6 @@
+The sumValues method adds up all numbers from the values-array,
+or only the positive numbers if the positivesOnly boolean parameter is set to true.
+
+Example test case: calling sumvalues with {1,2,3,4,-5} and true returns 10.
+
+The solution is already correct, but can you improve this program?

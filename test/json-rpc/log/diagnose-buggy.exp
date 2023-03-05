@@ -1,0 +1,9 @@
+{ "result":
+    {"buggy":
+       [ []
+       , "logic.propositional.buggy.demorgan4"
+       ]}
+, "error": null
+, "id": "84"
+, "version": "1.2 (6070)"
+}

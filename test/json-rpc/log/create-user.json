@@ -1,0 +1,4 @@
+{ "method" : "create"
+, "params" : ["logic.dnf", "~p <-> (p /\\ q)", "bastiaan"]
+, "id"     : 421
+}

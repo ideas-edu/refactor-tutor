@@ -1,0 +1,13 @@
+{ "result":
+    [ false
+    , "You rewrote ~(p || q) || T into ~p || ~q || T. This is incorrect. Make sure that you replace OR by AND. You may ask for a hint."
+    , [ "logic.propositional.dnf"
+      , "[]"
+      , "~(p || q) || T"
+      , {}
+      ]
+    ]
+, "error": null
+, "id": "84"
+, "version": "1.6.1 (d375f2d70bd844cb8fc184759701cb9551950876)"
+}

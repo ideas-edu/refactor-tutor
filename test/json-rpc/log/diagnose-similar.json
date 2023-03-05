@@ -1,0 +1,4 @@
+{ "method" : "diagnose"
+, "params" : [["logic.dnf", "[]", "p || (q || r)", ""], "(p || q) || r"]
+,"id":"84"
+}

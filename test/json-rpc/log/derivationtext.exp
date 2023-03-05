@@ -1,0 +1,15 @@
+{ "result":
+    [ [ "De Morgan"
+      , "~~x /\\ ~~y"
+      ]
+    , [ "double negation"
+      , "x /\\ ~~y"
+      ]
+    , [ "double negation"
+      , "x /\\ y"
+      ]
+    ]
+, "error": null
+, "id": 421
+, "version": "1.2 (6070)"
+}

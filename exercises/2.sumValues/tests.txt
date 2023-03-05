@@ -1,0 +1,6 @@
+{1,2,3,4,-5};true -> 10
+{1,2,3,4,-5};false -> 5
+{-1,2,-3,4,-5};false -> -3
+{-1,2,-3,4,-5,6};true  ->12
+{};true -> 0 -> An empty list has no numbers.
+{-9};true -> 0

@@ -1,0 +1,14 @@
+{ "result":
+    {"expected":
+       [ {"ready": true}
+       , [ "logic.propositional.cnf"
+         , "[0,1,5,2]"
+         , "(p || q) /\\ (p || r)"
+         , {}
+         ]
+       , "logic.propositional.oroverand"
+       ]}
+, "error": null
+, "id": "84"
+, "version": "1.2.1.1 (7137)"
+}

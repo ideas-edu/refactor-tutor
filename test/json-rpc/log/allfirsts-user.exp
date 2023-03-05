@@ -1,0 +1,18 @@
+{ "result":
+    [[ "logic.propositional.notnot"
+     , "[1]"
+     , []
+     , [ "logic.propositional.dnf"
+       , "[0,1,0,5,6,4]"
+       , "~(p || r) <-> q"
+       , {"location": "[1]"}
+       , [ "bastiaan"
+         , "4e33401fb1f759705465"
+         , "~(p || r) <-> ~~q"
+         ]
+       ]
+     ]]
+, "error": null
+, "id": 421
+, "version": "1.3.3 (7864)"
+}

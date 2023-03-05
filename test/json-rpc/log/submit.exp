@@ -1,0 +1,15 @@
+{ "result":
+    { "result": "Ok"
+    , "rules":
+        ["logic.propositional.demorganor"]
+    , "state":
+        [ "logic.propositional.dnf"
+        , "[0,1,4,1]"
+        , "~~x /\\ ~~y"
+        , {}
+        ]
+    }
+, "error": null
+, "id": 421
+, "version": "1.2.1.1 (7137)"
+}

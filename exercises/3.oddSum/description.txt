@@ -1,0 +1,5 @@
+The method oddSum returns the sum of all numbers at an odd index in the array parameter, until the number -1 is seen at an odd index.
+
+Example test case: {44, 12, 20, 1, -1, 3, 5,-1, 99, 4} returns 16 (12+1+3)
+
+The solution is already correct, but can you improve this program?

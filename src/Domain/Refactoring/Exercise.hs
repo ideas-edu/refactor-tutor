@@ -7,6 +7,7 @@ import Domain.Parsers.JavaParser
 import Domain.Refactoring.Strategy
 import Domain.Refactoring.Metrics
 import Domain.Refactoring.Rules.Rules
+import Domain.Refactoring.Rules.BuggyRules
 import Domain.Refactoring.Equality
 import Utils.FileUtils
 import Utils.ExerciseUtils
@@ -51,7 +52,7 @@ makeRefactorExercise refExInput settings = addReady $ emptyExercise
         canBeRestarted = true,
         examples       = examplesWithDifficulty [(Medium, startCM refExInput)],
         constraints    = [] ++ map c2 (testCases refExInput), -- check in diagnose
-        extraRules     = use buggyEqualsTrue : [use buggyCollapseIfR]
+        extraRules     = [use buggyEqualsTrue, use buggyCollapseIfR, use incrementAssignBuggy]
       }
     where
         addReady e = e { ready = predicate (stepsLeft e) }

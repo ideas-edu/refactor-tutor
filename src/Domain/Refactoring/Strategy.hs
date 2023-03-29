@@ -11,6 +11,7 @@ import Ideas.Common.Library as Ideas
 import Domain.Syntax hiding ((.%.), (./.))
 import Domain.Refactoring.Rules.Rules
 import Domain.Refactoring.Rules.LoopRules
+import Domain.Refactoring.Rules.BuggyRules
 -- import Domain.Refactoring.ExpStrategy
 import Domain.Refactoring.Util
 import Domain.Base.Normalisation

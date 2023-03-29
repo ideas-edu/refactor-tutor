@@ -19,7 +19,10 @@ common deps
                    directory,
                    bytestring,
                    process,
-                   split
+                   split,
+                   HTF,
+                   HUnit,
+                   QuickCheck
   ghc-options:     -Wall
                    -Wno-missing-home-modules
   hs-source-dirs:  src
@@ -32,8 +35,5 @@ test-suite tests
   import:          deps
   type:            exitcode-stdio-1.0
   main-is:         Tests.hs
-  build-depends:   HTF,
-                   QuickCheck,
-                   HUnit
   hs-source-dirs:  src/Test
 

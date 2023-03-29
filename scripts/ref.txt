@@ -153,7 +153,7 @@ feedback exitLoopEarlyCond      = Can we add a variable to the condition of the 
 feedback exitLoopEarlyBreak     = Can we add a test to the condition of the loop?
 feedback replaceBreak           = Can you replace the break by adding a condition to the loop?
 feedback replaceContinue        = replace continue
-#
+
 
 feedback removeAssignToSelfS = You're assigning a variable to itself, is that useful?
 feedback removeassigntoself  = You can remove the self-assignment
@@ -166,5 +166,8 @@ feedback removeReturnCondS          = Can you optimise the return?
 feedback removeIfElseReturnCond     = Can you remove the if-else and use its condition in the return?
 feedback removeIfReturnCond         = Can you remove the if and use its condition in the return?
 feedback removeBoolReturnVar        = Can you remove the if-else and use its condition in the return?
+
+# buggy rules
+feedback incrementassign       = Using ++ to increment a variable can stand on its own, since it already changes the variable. What exactly are you assigning to the variable? 
 
 # keep empty line at end

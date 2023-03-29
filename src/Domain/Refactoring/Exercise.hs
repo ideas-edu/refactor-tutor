@@ -52,7 +52,7 @@ makeRefactorExercise refExInput settings = addReady $ emptyExercise
         canBeRestarted = true,
         examples       = examplesWithDifficulty [(Medium, startCM refExInput)],
         constraints    = [] ++ map c2 (testCases refExInput), -- check in diagnose
-        extraRules     = [use buggyEqualsTrue, use buggyCollapseIfR, use incrementAssignBuggy]
+        extraRules     = [use buggyEqualsTrue, use buggyCollapseIfR, use incrementAssignBuggy, use compoundSubtractionBuggy]
       }
     where
         addReady e = e { ready = predicate (stepsLeft e) }

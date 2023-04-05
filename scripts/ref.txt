@@ -1,4 +1,4 @@
-string ok        = Correct
+string ok        = That was a correct step, well done!
 string incorrect = This is incorrect. 
 string finished  = The program is already fully refined.
 string noteq     = The output is incorrect
@@ -20,7 +20,7 @@ string askForHint
 
 
 feedback same = {
-   You haven't made any progress
+   You haven't changed much in the code.
 }
 
 feedback noteq    = xx
@@ -28,7 +28,7 @@ feedback unknown  = @unknown
 feedback ok       = @ok @appliedRule
 feedback buggy    = {@incorrect @recognized}
 feedback detour   = @appliedRule This is correct. @suggested
-feedback correct  = This is correct
+feedback correct  = All test cases still pass.
 feedback expected = You just did x
 feedback same     = Hetzelfde
 
@@ -168,6 +168,8 @@ feedback removeIfReturnCond         = Can you remove the if and use its conditio
 feedback removeBoolReturnVar        = Can you remove the if-else and use its condition in the return?
 
 # buggy rules
-feedback incrementassign       = Using ++ to increment a variable can stand on its own, since it already changes the variable. What exactly are you assigning to the variable? 
+feedback incrementAssignBuggy       = Using ++ to increment a variable can stand on its own, since it already changes the variable. What exactly are you assigning to the variable?
+feedback decrementAssignBuggy       = Using -- to decrement a variable can stand on its own, since it already changes the variable. What exactly are you assigning to the variable?
+feedback compoundSubtractionBuggy   = The compound subtraction operator is -=, using =- will assign a negative number. a =- 3 is the same as a = -3.
 
 # keep empty line at end

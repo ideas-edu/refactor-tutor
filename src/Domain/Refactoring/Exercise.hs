@@ -51,7 +51,7 @@ makeRefactorExercise refExInput settings = addReady $ emptyExercise
         properties     = Map.empty, 
         canBeRestarted = true,
         examples       = examplesWithDifficulty [(Medium, startCM refExInput)],
-        constraints    = [] ++ map c2 (testCases refExInput), -- check in diagnose
+        constraints    = map c2 (testCases refExInput), -- check in diagnose
         extraRules     = [use buggyEqualsTrue, use buggyCollapseIfR, use incrementAssignBuggy, use compoundSubtractionBuggy, use decrementAssignBuggy]
       }
     where

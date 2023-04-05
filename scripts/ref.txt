@@ -171,5 +171,6 @@ feedback removeBoolReturnVar        = Can you remove the if-else and use its con
 feedback incrementAssignBuggy       = Using ++ to increment a variable can stand on its own, since it already changes the variable. What exactly are you assigning to the variable?
 feedback decrementAssignBuggy       = Using -- to decrement a variable can stand on its own, since it already changes the variable. What exactly are you assigning to the variable?
 feedback compoundSubtractionBuggy   = The compound subtraction operator is -=, using =- will assign a negative number. a =- 3 is the same as a = -3.
+feedback compoundAdditionBuggy      = The compound addition operator is +=, using =+ will assign a positive number. a =+ 3 is the same as a = +3.
 
 # keep empty line at end

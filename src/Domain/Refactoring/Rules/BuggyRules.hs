@@ -1,4 +1,4 @@
-module Domain.Refactoring.Rules.BuggyRules(incrementAssignBuggy, decrementAssignBuggy, compoundSubtractionBuggy) where
+module Domain.Refactoring.Rules.BuggyRules(incrementAssignBuggy, decrementAssignBuggy, compoundSubtractionBuggy, compoundAdditionBuggy) where
 
 import Domain.Parsers.JavaParser
 
@@ -27,3 +27,8 @@ decrementAssignBuggy = buggy $ ruleRewrite $ makeRewriteRule "decrementAssignBug
 compoundSubtractionBuggy :: Rule Statement
 compoundSubtractionBuggy = buggy $ ruleRewrite $ makeRewriteRule "compoundSubtractionBuggy" $
   \x n -> ExprStat (x .=. (x .-. n)) :~> ExprStat (x .=. (Prefixed Minus n))
+
+-- score =+ 1
+compoundAdditionBuggy :: Rule Statement
+compoundAdditionBuggy = buggy $ ruleRewrite $ makeRewriteRule "compoundAdditionBuggy" $
+  \x n -> ExprStat (x .=. (x .+. n)) :~> ExprStat (x .=. (Prefixed Plus n))

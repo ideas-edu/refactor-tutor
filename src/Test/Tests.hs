@@ -12,7 +12,9 @@ import {-@ HTF_TESTS @-} Test.Domain.EvaluatorTest
 import {-@ HTF_TESTS @-} Test.Domain.EqualityTest
 import {-@ HTF_TESTS @-} Test.Domain.DependencyTest
 import {-@ HTF_TESTS @-} Test.Domain.Refactoring.RewriteRulesTest
+import {-@ HTF_TESTS @-} Test.Domain.Refactoring.Rules.BuggyRules
 -- import {-@ HTF_TESTS @-} Test.Domain.Refactoring.StrategyTests -- uses logic tutor
+
 
 main :: IO ExitCode
 main = 
@@ -23,6 +25,7 @@ testsWith :: [String] -> IO ExitCode
 testsWith args = 
     let (Right c) = parseTestArgs args
     in runTestWithOptions c { opts_useColors = Just True } htf_importedTests
+
 
 diagTests = testsWith ["diag", "hint"] -- runTest $ makeAnonTestSuite tests
 hintTests = testsWith ["hint"]

@@ -307,7 +307,7 @@ function diagnoseR (ev)
     var encodedCode = prepareCode(code);
     //console.log(encodedCode);
 
-    serviceCall(makeRequest("diagnoseR", [stateToArray(state), encodedCode]), 
+    serviceCall(makeRequest("diagnoseTextR", [stateToArray(state), encodedCode]), 
         function(response)
         {
             setWait(ev.currentTarget, false);
@@ -326,30 +326,30 @@ function diagnoseR (ev)
                 return;
             }
             
-            var diagnoseType = Object.keys(res)[0];  
+            var diagnoseType = Object.keys(res[0])[0];  
             var ok = false;
             var exDone = false;     
             if (diagnoseType == "syntaxerror")
             {
-                var msg = res[diagnoseType];
+                var msg = res[0][diagnoseType];
             }
             else if (diagnoseType == "notequiv")
             {
-                var msg = res[diagnoseType][0].reason;
+                var msg = res[0][diagnoseType][0].reason;
             }
             else if (diagnoseType == "buggy")
             {
-                var msg = res[diagnoseType][1];
+                var msg = res[1];
             }
             else if (diagnoseType == "similar" || diagnoseType == "expected" || diagnoseType == "correct") 
             {
-                var msg = diag[diagnoseType] || "Unknown progress.";
-                var newState = res[diagnoseType][1];
+                var msg = res[1];
+                var newState = res[0][diagnoseType][1];
                 toConsole("new state saved");
                 toConsole(newState);
                 saveState(newState);
 
-                exDone = res[diagnoseType][0]["ready"];
+                exDone = res[0][diagnoseType][0]["ready"];
                 ok = true;
             }
             if (exDone) 
@@ -368,9 +368,6 @@ function diagnoseR (ev)
         }
     );
 }
-const diag = { similar:  "You haven't changed much in the code.", 
-               expected: "That was a correct step, well done!", 
-               correct:  "All test cases still pass." }
 
 // variant voor IPT
 function diagnoseTextDeep(ev)

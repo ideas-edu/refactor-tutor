@@ -15,16 +15,15 @@ import Domain.Terms
 
 -- count = count++;
 incrementAssignBuggy :: Rule Statement
-incrementAssignBuggy = buggy $ ruleRewrite $ makeRewriteRule "incrementAssign" $
+incrementAssignBuggy = buggy $ ruleRewrite $ makeRewriteRule "incrementAssignBuggy" $
   \x -> ExprStat (x .=. (x .+. LiteralExpr (IntLiteral 1))) :~> ExprStat (x .=. Postfixed Incr x) 
 
 -- score = score--;
 decrementAssignBuggy :: Rule Statement
-decrementAssignBuggy = buggy $ ruleRewrite $ makeRewriteRule "decrementAssign" $
+decrementAssignBuggy = buggy $ ruleRewrite $ makeRewriteRule "decrementAssignBuggy" $
   \x -> ExprStat (x .=. (x .-. LiteralExpr (IntLiteral 1))) :~> ExprStat (x .=. Postfixed Decr x) 
 
 -- score =- 3;
 compoundSubtractionBuggy :: Rule Statement
 compoundSubtractionBuggy = buggy $ ruleRewrite $ makeRewriteRule "compoundSubtractionBuggy" $
   \x n -> ExprStat (x .=. (x .-. n)) :~> ExprStat (x .=. (Prefixed Minus n))
-

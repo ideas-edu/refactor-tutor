@@ -374,7 +374,7 @@ instance Conv Op InfixOp where
     convert CAnd    = return AND
     convert COr     = return OR
     convert Xor     = fail "Xor not supported"
-    convert And     = fail "& not supported"
+    convert And     = return BAnd
     convert Or      = fail "| not supported"
 
 instance Conv J.AssignOp S.AssignOp where

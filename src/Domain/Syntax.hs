@@ -63,7 +63,7 @@ data Literal =
 data InfixOp = 
         Addition | Subtraction | Multiplication | Division | Remainder 
     |   Equal | NotEqual | Greater | GreaterOrEqual | Less | LessOrEqual 
-    |   AND | OR 
+    |   AND | OR | BAnd
     deriving (Data, Typeable, Eq, Show, Ord)
 
 data AssignOp = 
@@ -610,6 +610,7 @@ getCompl Greater        = Just LessOrEqual
 getCompl AND            = Nothing
 getCompl OR             = Nothing
 getCompl Remainder      = Nothing
+getCompl BAnd           = Nothing
 
 precedenceMap :: [(InfixOp, Int)]
 precedenceMap = 

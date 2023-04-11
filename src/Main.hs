@@ -20,6 +20,7 @@ import Data.Maybe
 main :: IO ()
 main = drRef >>= defaultMainWith (mempty {maxTime = Just 20})
 
+
 drRef :: IO DomainReasoner
 drRef = 
     do

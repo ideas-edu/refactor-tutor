@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
+{-# OPTIONS_GHC -Wno-orphans #-}
 
 module Domain.Printer 
 (
@@ -72,12 +73,26 @@ instance Pretty Identifier where
     pretty (Identifier i) = text i
 
 instance Pretty InfixOp where
-    pretty = text . fromMaybe "??" . flip lookup table
+    pretty Addition       = text "+"
+    pretty Subtraction    = text "-"
+    pretty Multiplication = text "*"
+    pretty Division       = text "/"
+    pretty Remainder      = text "%"
+    pretty Equal          = text "=="
+    pretty NotEqual       = text "!="
+    pretty Greater        = text ">"
+    pretty GreaterOrEqual = text ">="
+    pretty Less           = text "<"
+    pretty LessOrEqual    = text "<="
+    pretty AND            = text "&&"
+    pretty OR             = text "||"
+    pretty BAnd           = text "&"
+    {-pretty = text . fromMaybe "??" . flip lookup table
         where
             table = [(Addition, "+"), (Subtraction, "-"), (Multiplication, "*"), 
                     (Division, "/"), (Remainder, "%"),(Equal, "=="), 
                     (NotEqual, "!="), (Greater, ">"), (GreaterOrEqual, ">="), 
-                    (Less, "<"), (LessOrEqual, "<="), (AND, "&&"), (OR, "||")]
+                    (Less, "<"), (LessOrEqual, "<="), (AND, "&&"), (OR, "||")]-}
 
 instance Pretty AssignOp where
     pretty = text . fromMaybe "?=" . flip lookup table

@@ -46,7 +46,7 @@ forinitexprSymb     = newSymbol "forinitexpr"
 forinitdeclsSymb    = newSymbol "forinitdecls"
 
 additionSymb, subtractionSymb, multiplicationSymb, divisionSymb, remainderSymb, equalSymb,
-    notequalSymb, greaterSymb, greaterorequalSymb, lessSymb, lessorequalSymb, andSymb, orSymb :: Symbol
+    notequalSymb, greaterSymb, greaterorequalSymb, lessSymb, lessorequalSymb, andSymb, orSymb, bAndSymb :: Symbol
 additionSymb        = newSymbol "addition"
 subtractionSymb     = newSymbol "subtraction"
 multiplicationSymb  = newSymbol "multiplication"
@@ -60,6 +60,7 @@ lessSymb            = newSymbol "less"
 lessorequalSymb     = newSymbol "lessorequal"
 andSymb             = newSymbol "and"
 orSymb              = newSymbol "or"
+bAndSymb            = newSymbol "band"
 
 assignSymb, assignremSymb, assignsubSymb, assigndivSymb, assignmulSymb,
     assignaddSymb :: Symbol
@@ -211,6 +212,7 @@ instance IsTerm InfixOp where
         LessOrEqual     -> TCon lessorequalSymb []
         AND             -> TCon andSymb []
         OR              -> TCon orSymb []
+        BAnd            -> TCon bAndSymb []
 
     fromTerm t@(TCon s []) 
         | s == additionSymb       = return Addition
@@ -226,6 +228,7 @@ instance IsTerm InfixOp where
         | s == lessorequalSymb    = return LessOrEqual
         | s == andSymb            = return AND
         | s == orSymb             = return OR
+        | s == bAndSymb           = return BAnd
         | otherwise               = fromTermError t
     fromTerm t = fromTermError t
 

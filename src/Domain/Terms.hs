@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-orphans #-}
 module Domain.Terms where
 
 import Domain.Syntax

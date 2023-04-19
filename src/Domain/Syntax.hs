@@ -576,10 +576,11 @@ instance Inc Expression where
 --------------------------------------------------------------------------------
 -- Operators
 
-isComparisonOp, isArithmeticOp, isBoolOp :: InfixOp -> Bool
+isComparisonOp, isArithmeticOp, isBoolOp, isBitwiseOp :: InfixOp -> Bool
 isComparisonOp = flip elem [ Equal, NotEqual, Greater, GreaterOrEqual, Less, LessOrEqual]
 isArithmeticOp = flip elem [Addition, Multiplication, Division, Subtraction, Remainder]
-isBoolOp       = flip elem [AND, OR] 
+isBoolOp       = flip elem [AND, OR]
+isBitwiseOp    = flip elem [BAnd]
 
 class HasPrecedence a where
     precedence  :: a -> Int
@@ -615,7 +616,7 @@ getCompl BAnd           = Nothing
 precedenceMap :: [(InfixOp, Int)]
 precedenceMap = 
     [ (Division, 6), (Multiplication, 6), (Remainder, 6)
-    , (Addition, 7), (Subtraction, 7)
+    , (Addition, 7), (Subtraction, 7), (BAnd, 7)
     , (Less, 9), (LessOrEqual, 9), (Greater, 9), (GreaterOrEqual, 9) 
     , (Equal, 10), (NotEqual, 10)
     , (AND, 14), (OR, 15)

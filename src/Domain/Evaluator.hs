@@ -29,6 +29,8 @@ import qualified Data.Map as Map
 import Control.Monad.Except
 import qualified Data.Sequence as S
 import Text.PrettyPrint.Leijen hiding ((<$>))
+import Domain.Parsers.JavaParser
+import Data.Bits ((.&.), Bits)
 
 evalProgram :: ToBase a => a -> Either EvalResult String
 evalProgram p = case result of
@@ -422,6 +424,7 @@ calc op lt1 lt2
     | isComparisonOp op && isBool lt1       = binary2b (toCompOp op) (toBool lt1) (toBool lt2)
 
     -- TODO compare doubles
+    | isBitwiseOp op && isInt lt1 && isInt lt2 = binaryi2i (toBitwiseOp op) (toInt lt1) (toInt lt2)
     | otherwise                             = throwEvalError "Invalid calculation"
 
 binaryd2d :: (Monad m, Applicative m, Fractional a, Fractional b) => m (a -> b -> Double) -> m a -> m b -> m Literal
@@ -493,3 +496,6 @@ toBoolOp :: MonadError EvalResult m => InfixOp -> m (Bool -> Bool -> Bool)
 toBoolOp AND                = return (&&)
 toBoolOp OR                 = return (||)
 toBoolOp _                  = throwEvalError "No boolean operator"
+
+toBitwiseOp :: MonadError EvalResult m => Integral a => Data.Bits.Bits a => InfixOp -> m (a -> a -> a)
+toBitwiseOp BAnd = return (.&.)

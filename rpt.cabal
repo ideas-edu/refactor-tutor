@@ -25,8 +25,16 @@ common deps
                    QuickCheck
   ghc-options:     -Wall
                    -Wno-missing-home-modules
+                   -- FIXME: These are temporary
+                   -Wno-name-shadowing
+                   -Wno-unused-imports
+                   -Wno-unused-matches
+                   -Wno-orphans
+                   -Wno-unused-top-binds
+                   -Wno-unused-local-binds
+                   -Wno-unused-do-bind
   hs-source-dirs:  src
-                   
+
 executable rpt
   import:          deps
   main-is:         Main.hs

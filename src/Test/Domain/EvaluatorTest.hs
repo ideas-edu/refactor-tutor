@@ -10,7 +10,7 @@ import Domain.Parsers.JavaParser
 import Domain.Refactoring.HCExercises
 import Utils.TestParser (parseTest)
 import Exp
-import Test.Framework
+import Test.Framework hiding ((.&.))
 import Test.Framework.TestInterface (Assertion)
 import Test.TestUtils
 import Data.Maybe
@@ -18,6 +18,7 @@ import Data.Either
 import Data.Sequence
 import Control.Arrow
 import Control.Monad
+import Data.Bits
 
 evalC       = fmap evalProgram . parseFragment' 
 evalCode    = evalProgram . fromJust . parseFragment' 
@@ -43,6 +44,19 @@ test_evalCond :: Assertion
 test_evalCond = do
     assertEqual (Right "2") (evalCode "int i = 0; int [] a = new int[2]; a[0]=1;a[1]=2; while(i<a.length && a[i] != -1) i++;print(i);") 
     assertEqual (Right "1") (evalCode "int i = 0; int [] a = new int[2]; a[0]=1;a[1]=-1; while(i<a.length && a[i] != -1) i++;print(i);")  
+
+---------- Bitwise -----------
+
+
+test_bitwiseAnd :: Assertion
+test_bitwiseAnd = do
+  assertEqual (expected 1 2) (actual 1 2)
+  assertEqual (expected 6 7) (actual 6 7)
+  where
+    expected, actual :: Int -> Int -> Int
+    expected n m = n .&. m
+    actual n m = read $ fromRight undefined (evalCode ("print(" ++ show n ++ "&" ++ show m ++");"))
+
 
 
 ---------- Arrays ----------

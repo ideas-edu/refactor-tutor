@@ -78,6 +78,7 @@ data BExpr =
     |   Call        Identifier [BExpr] -- can be a ExprStat
     |   Property    Identifier Identifier
     |   NewArray    DataType BExpr
+    |   Ternary     BExpr BExpr BExpr
     deriving (Data, Typeable, Eq, Ord, Show)
 
 instance Num BExpr where
@@ -238,6 +239,7 @@ propertySymb        = newSymbol "property"
 arrayaccSymb        = newSymbol "arrayacc"
 callSymb            = newSymbol "call"
 newarraySymb        = newSymbol "newarray"
+ternarySymb         = newSymbol "ternary"
 
 instance IsTerm BExpr where
     toTerm (Infixed a b c)    = TCon infixedSymb (toTerm3 a b c)
@@ -249,6 +251,7 @@ instance IsTerm BExpr where
     toTerm (ArrayAcc a b)     = TCon arrayaccSymb (toTerm2 a b)
     toTerm (Call a b)         = TCon callSymb [toTerm a, toTermList b] -- check
     toTerm (NewArray a b)     = TCon newarraySymb (toTerm2 a b)
+    toTerm (Ternary a b c)    = TCon ternarySymb (toTerm3 a b c)
     toTerm t                  = toTermError t
      
     fromTerm t = case t of
@@ -261,6 +264,7 @@ instance IsTerm BExpr where
         (TCon s [a, b])       | s == arrayaccSymb   -> fromTerm2 ArrayAcc a b
         (TCon s [a, b])       | s == callSymb       -> fromTerm2 Call a b
         (TCon s [a, b])       | s == newarraySymb   -> fromTerm2 NewArray a b
+        (TCon s [a, b, c])    | s == ternarySymb    -> fromTerm3 Ternary a b c
         _                                           -> fromTermError t
 
 instance IsTerm BFragment

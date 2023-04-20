@@ -30,7 +30,7 @@ returnSymb          = newSymbol "return"
 continueSymb        = newSymbol "continue"
 
 infixedSymb, assignmentSymb, prefixedSymb, postfixedSymb, literalexprSymb, idexprSymb,
-    propertySymb, arrayaccSymb, callSymb, newarraySymb :: Symbol
+    propertySymb, arrayaccSymb, callSymb, newarraySymb, ternarySymb :: Symbol
 infixedSymb         = newSymbol "infixed"
 assignmentSymb      = newSymbol "assignment"
 prefixedSymb        = newSymbol "prefixed"
@@ -41,6 +41,7 @@ propertySymb        = newSymbol "property"
 arrayaccSymb        = newSymbol "arrayacc"
 callSymb            = newSymbol "call"
 newarraySymb        = newSymbol "newarray"
+ternarySymb         = newSymbol "ternary"
 
 forinitexprSymb, forinitdeclsSymb :: Symbol
 forinitexprSymb     = newSymbol "forinitexpr"
@@ -172,6 +173,7 @@ instance IsTerm Expression where
     toTerm (ArrayAcc a b)     = TCon arrayaccSymb (toTerm2 a b)
     toTerm (Call a b)         = TCon callSymb (toTerm2 a b)
     toTerm (NewArray a b)     = TCon newarraySymb (toTerm2 a b)
+    toTerm (Ternary a b c)    = TCon ternarySymb (toTerm3 a b c)
     toTerm t                  = toTermError t
      
     fromTerm t = case t of
@@ -185,6 +187,7 @@ instance IsTerm Expression where
         (TCon s [a, b])       | s == arrayaccSymb   -> fromTerm2 ArrayAcc a b
         (TCon s [a, b])       | s == callSymb       -> fromTerm2 Call a b
         (TCon s [a, b])       | s == newarraySymb   -> fromTerm2 NewArray a b
+        (TCon s [a, b, c])    | s == ternarySymb    -> fromTerm3 Ternary a b c
         (TMeta i)                                   -> return (IdExpr (makeIdentifier "[expr]"))
         _                                           -> fromTermError t
 

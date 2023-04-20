@@ -137,6 +137,7 @@ data Expression =
     |   Call        Identifier [Expression] 
     |   Property    Identifier Identifier -- TODO Expression Identifier
     |   NewArray    DataType Expression
+    |   Ternary     Expression Expression Expression
     deriving (Data, Typeable, Eq, Ord, Show)
 
 data Param = 

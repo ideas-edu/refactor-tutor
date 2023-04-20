@@ -137,6 +137,7 @@ instance Convert S.Expression BExpr where
     conv (S.Call i es)             = Call i (conv es)
     conv (S.Property i1 i2)        = Property i1 i2 
     conv (S.NewArray dt e)         = NewArray dt (conv e)
+    conv (S.Ternary c t f)         = Ternary (conv c) (conv t) (conv f)
 
 instance Convert S.ForInit [BExpr] where
     conv (S.ForInitExpr es)        = conv es
@@ -196,7 +197,8 @@ instance Convert BExpr S.Expression where
         Call i ps           -> S.Call i (conv ps)
         ArrayAcc i index    -> S.ArrayAcc i (conv index)
         Property i prop     -> S.Property i prop
-        NewArray dt e       -> S.NewArray dt (conv expr)   
+        NewArray dt e       -> S.NewArray dt (conv expr)
+        Ternary c t f       -> S.Ternary (conv c) (conv t) (conv f)
 
 -------------------------------------------------------------------------------
 -- Prints a base program

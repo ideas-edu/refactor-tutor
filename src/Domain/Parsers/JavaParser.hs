@@ -327,7 +327,7 @@ instance Conv Exp Expression where
     convert (ArrayAccess (ArrayIndex (ExpName exp) [i])) = ArrayAcc <$> convert exp <*> convert i
     convert ArrayAccess {}               = fail $ "Array accessor not supported"
     
-    convert Cond {}                      = fail $ "Conditional operator ? : not supported"
+    convert (Cond c t f)                 = Ternary <$> convert c <*> convert t <*> convert f
     convert Cast {}                      = fail $ "Casting not supported"
 
     convert Lambda {}                    = fail $ "Lambda not supported"

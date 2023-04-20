@@ -313,10 +313,22 @@ instance Evaluation BExpr Literal where
             do
                 size' <- eval size >>= toInt
                 return $ ArrayLit $ S.replicate size' $ defaultValue dt
-      
+
+        Ternary c t f ->
+          do
+            doIf <- checkBoolExpr [c] "No boolean condition in ternary"
+            eval $ if doIf then t else f
+
         x -> throwError (NotSupported $ show x)
         
         where
+            -- error if no boolean expression found    
+            checkBoolExpr tests msg = 
+                do
+                    evals <- mapM eval tests >>= mapM toBool            
+                    return $ and evals
+                    `catchError`  const (throwEvalError msg)
+        
             incdec e@(IdExpr idf) preOp isPostfix = 
                 do             
                     e' <- eval e

@@ -1,4 +1,4 @@
-module Domain.Refactoring.Rules.BuggyRules(incrementAssignBuggy, decrementAssignBuggy, compoundSubtractionBuggy, compoundAdditionBuggy) where
+module Domain.Refactoring.Rules.BuggyRules(incrementAssignBuggy, decrementAssignBuggy, compoundSubtractionBuggy, compoundAdditionBuggy, forToForeachBuggy) where
 
 import Domain.Parsers.JavaParser
 
@@ -36,3 +36,7 @@ compoundSubtractionBuggy = buggy $ ruleRewrite $ makeRewriteRule "compoundSubtra
 compoundAdditionBuggy :: Rule Statement
 compoundAdditionBuggy = buggy $ ruleRewrite $ makeRewriteRule "compoundAdditionBuggy" $
   \x n -> ExprStat (x .=. (x .+. n)) :~> ExprStat (x .=. (Prefixed Plus n))
+
+forToForeachBuggy :: Rule Statement
+forToForeachBuggy = buggy $ ruleRewrite $ makeRewriteRule "forToForeachBuggy" $
+  \i arr b -> For (ForInitDecls IntType [Assignment Assign (IdExpr i) (LiteralExpr (IntLiteral 0))]) [Infixed Less (IdExpr i) (Property arr (Identifier {name = "length"}))] [Postfixed Incr (IdExpr i)] b :~> ForEach IntType i (IdExpr arr) b

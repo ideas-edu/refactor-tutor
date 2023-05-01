@@ -28,3 +28,6 @@ flycheck_*.el
 .dir-locals.el
 /network-security.data
 
+# rpt
+/X*.java
+/input.json

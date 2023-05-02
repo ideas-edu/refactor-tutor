@@ -51,6 +51,13 @@ data DataType =
     |   DoubleType
     deriving (Data, Typeable, Eq, Show, Ord, Read)
 
+-- | A list of constructors in `DataType`, going one level deep (so no multi-dimentional arrays)
+allDataTypes :: [DataType]
+allDataTypes = simple ++ arrays
+  where
+    simple = [BoolType, IntType, StringType, DoubleType]
+    arrays = map ArrayType simple
+
 data Literal = 
         Null
     |   IntLiteral      Int

@@ -42,17 +42,17 @@ testStrategy p = do
 
 -- | Model program with method
 example1MPMethod :: IO Program
-example1MPMethod = forceReadMethod "../test/rpt/exSum/pmp.java"
+example1MPMethod = forceReadMethod "test/rpt/exSum/pmp.java"
 
 -- | Student programs
 example1SP1, example1SP2 :: IO Program
-example1SP1 = forceReadMethod "../test/rpt/exSum/sp1.java" 
-example1SP2 = forceReadMethod "../test/rpt/exSum/sp1.java"
+example1SP1 = forceReadMethod "test/rpt/exSum/sp1.java" 
+example1SP2 = forceReadMethod "test/rpt/exSum/sp1.java"
               
 -- | Test programs
 example1TP1, example1TP2 :: IO Program
-example1TP1 = forceReadMethod "../test/rpt/exSum/tp1.java"
-example1TP2 = forceReadMethod "../test/rpt/exSum/tp2.java"
+example1TP1 = forceReadMethod "test/rpt/exSum/tp1.java"
+example1TP2 = forceReadMethod "test/rpt/exSum/tp2.java"
 
 model1 = "C:/Users/p43341961/Dropbox/Onderzoek/Afst/Research/Validation/Analyse/Java 1/1"
 loadF = "C:/Users/p43341961/Dropbox/Onderzoek/RPT/Data/Uitwerkingen Fib"

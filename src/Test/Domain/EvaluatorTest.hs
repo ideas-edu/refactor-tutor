@@ -36,8 +36,8 @@ test_eval = do
 test_evalError:: Assertion
 test_evalError = do
     _ <- assertLeft $ evalCode "x = 1 + True;" 
-    _ <- assertLeft $ evalCode "print(1);print(?);print(2+True);"
-    _ <- assertLeft $ evalCode "print(? + (2+True));" -- gaat wel goed
+    _ <- assertLeft $ evalCode "print(1);print(2+True);"
+    _ <- assertLeft $ evalCode "print(max(1,2) + (2+True));" -- gaat wel goed
     return ()
 
 test_evalCond :: Assertion
@@ -57,7 +57,14 @@ test_bitwiseAnd = do
     expected n m = n .&. m
     actual n m = read $ fromRight undefined (evalCode ("print(" ++ show n ++ "&" ++ show m ++");"))
 
+---------- Ternary ----------
 
+test_ternary :: Assertion
+test_ternary = do
+  assertEqual "1" $ tern "true" "1" "2"
+  assertEqual "2" $ tern "false" "1" "2"
+  where
+    tern c t f = fromRight undefined $ evalCode ("print(" ++ c ++ "?" ++ t ++ ":" ++ f ++ ");")
 
 ---------- Arrays ----------
 
@@ -74,9 +81,9 @@ test_evalArraysInit = do
 -- EJavaParser error
 test_evalArrayErrors:: Assertion
 test_evalArrayErrors = do       
-    assertLeft $ evalCode "int [] x = new int[2]; x[-1];"
-    assertLeft $ evalCode "int [] x = new int[2]; x[2];"
-    assertLeft $ evalCode "int x = 0; x[0];"
+    assertLeft $ evalCode "int [] x = new int[2]; print(x[-1]);"
+    assertLeft $ evalCode "int [] x = new int[2]; print(x[2]);"
+    assertLeft $ evalCode "int x = 0; print(x[0]);"
     return ()
     
 test_evalVarInit:: Assertion

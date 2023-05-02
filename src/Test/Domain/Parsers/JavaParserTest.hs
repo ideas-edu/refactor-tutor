@@ -119,7 +119,7 @@ collectJavaTestFileNames = do
 testFilesPath :: IO FilePath
 testFilesPath = do    
     curDir <- getCurrentDirectory
-    return $ takeDirectory curDir </> "test"
+    return $ curDir </> "test"
 
 readTestFile :: String -> IO String
 readTestFile name = do

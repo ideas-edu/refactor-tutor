@@ -23,7 +23,8 @@ jobs:
 
       - name: Setup
         if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        run: sudo .docker/setup.sh
+        run: |
+          sudo .docker/setup.sh
 
       - name: Build
         run: |
@@ -35,6 +36,25 @@ jobs:
           cp scripts/ref.txt ref.txt
           tar czf rpt-web.tar.gz www
           tar czf rpt-cgi.tar.gz exercises ref.txt rpt login
+
+      - name: Regression Test
+        env:
+          RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
+        run: |
+          sudo apt install -qqy rclone
+
+          # Download the base version of rpt to compare to
+          wget --quiet https://github.com/${{ github.repository }}/releases/download/v1.1.0/rpt --output-document base-rpt && chmod +x base-rpt
+
+          # Setup rsync for onedrive access
+          echo "$RCLONE_CONFIG" | base64 -d > rclone.conf
+          
+          # Get database from onedrive and run tests
+          rclone --config rclone.conf copy OneDrive:rpt/requests-rpt-cleaned-enhanced.db .
+          stack runhaskell RegressionTests.hs -- $PWD/requests-rpt-cleaned-enhanced.db $PWD/base-rpt $PWD/rpt
+
+          # Remove files
+          rm -rf rclone.conf requests-rpt-cleaned-enhanced.db
 
       - name: Artifact
         uses: actions/upload-artifact@v3

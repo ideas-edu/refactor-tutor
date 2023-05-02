@@ -37,6 +37,25 @@ compoundAdditionBuggy :: Rule Statement
 compoundAdditionBuggy = buggy $ ruleRewrite $ makeRewriteRule "compoundAdditionBuggy" $
   \x n -> ExprStat (x .=. (x .+. n)) :~> ExprStat (x .=. (Prefixed Plus n))
 
+{-
+-- Old, but has (almost) the same behaviour as the new view based one below
 forToForeachBuggy :: Rule Statement
 forToForeachBuggy = buggy $ ruleRewrite $ makeRewriteRule "forToForeachBuggy" $
   \i arr b -> For (ForInitDecls IntType [Assignment Assign (IdExpr i) (LiteralExpr (IntLiteral 0))]) [Infixed Less (IdExpr i) (Property arr (Identifier {name = "length"}))] [Postfixed Incr (IdExpr i)] b :~> ForEach IntType i (IdExpr arr) b
+-}
+
+-- | 
+forToForeachBuggy :: Rule Statement
+forToForeachBuggy = buggy $ makeRule "forToForeachViewBuggy" f'
+  where
+    f' :: Statement -> [Statement]
+    f' (For fInit [fCond] [fIncr] fBody) = do
+      c            <- maybeToList $ match viewInitZero fInit
+      (c2, fArr)   <- maybeToList $ match viewToArrLength fCond
+      c3           <- maybeToList $ match viewIncrOne fIncr
+      
+      if c == c2 && c2 == c3
+        then map (\t -> ForEach t c (IdExpr fArr) fBody) allDataTypes
+        else []
+    f' _ = []
+

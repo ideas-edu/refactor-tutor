@@ -31,6 +31,7 @@ import qualified Data.Sequence as S
 import Text.PrettyPrint.Leijen hiding ((<$>))
 import Domain.Parsers.JavaParser
 import Data.Bits ((.&.), Bits)
+import Control.Monad
 
 evalProgram :: ToBase a => a -> Either EvalResult String
 evalProgram p = case result of
@@ -184,22 +185,7 @@ instance Evaluation BStat () where
                 _ -> throwError err
         )
         
-        where
-            -- error if no boolean expression found    
-            checkBoolExpr tests msg = 
-                do
-                    evals <- mapM eval tests >>= mapM toBool            
-                    return $ and evals
-                    `catchError`  const (throwEvalError msg)
-                               --  (\err -> throwError err)
-            
-            -- returns True if no boolean expression found       
-            checkBoolExpr' tests = 
-                do
-                    evals <- mapM eval tests >>= mapM toBool            
-                    return $ and evals
-                    `catchError` const (return True)
-                                
+        where    
             loop tests lBody = loop' (1 :: Integer)
                 where 
                     loop' counter = 
@@ -213,6 +199,24 @@ instance Evaluation BStat () where
                                     ContinueEncountered -> loop' (counter + 1)
                                     _                   -> throwError err
                             )
+                            
+
+-- error if no boolean expression found
+checkBoolExpr :: (Traversable t, Evaluation a Literal) => t a -> String -> Eval Bool
+checkBoolExpr tests msg = 
+    do
+        evals <- traverse (toBool <=< eval) tests           
+        return $ and evals
+        `catchError`  const (throwEvalError msg)
+                   --  (\err -> throwError err)
+            
+-- returns True if no boolean expression found
+checkBoolExpr' :: (Traversable t, Evaluation a Literal) => t a -> Eval Bool
+checkBoolExpr' tests = 
+    do
+        evals <- mapM eval tests >>= mapM toBool            
+        return $ and evals
+        `catchError` const (return True)
                             
 
 --------------------------------------------------------------------------------
@@ -315,20 +319,13 @@ instance Evaluation BExpr Literal where
                 return $ ArrayLit $ S.replicate size' $ defaultValue dt
 
         Ternary c t f ->
-          do
-            doIf <- checkBoolExpr [c] "No boolean condition in ternary"
-            eval $ if doIf then t else f
+            do
+                doIf <- checkBoolExpr [c] "No boolean condition in ternary"
+                eval $ if doIf then t else f
 
         x -> throwError (NotSupported $ show x)
         
         where
-            -- error if no boolean expression found    
-            checkBoolExpr tests msg = 
-                do
-                    evals <- mapM eval tests >>= mapM toBool            
-                    return $ and evals
-                    `catchError`  const (throwEvalError msg)
-        
             incdec e@(IdExpr idf) preOp isPostfix = 
                 do             
                     e' <- eval e

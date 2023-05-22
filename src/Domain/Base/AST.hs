@@ -72,13 +72,13 @@ data BExpr =
         Infixed     InfixOp BExpr BExpr
     |   Prefixed    UnaryOp BExpr
     |   Postfixed   UnaryOp BExpr
+    |   Ternary     BExpr BExpr BExpr
     |   LitExpr     Literal
     |   IdExpr      Identifier
     |   ArrayAcc    Identifier BExpr 
     |   Call        Identifier [BExpr] -- can be a ExprStat
     |   Property    Identifier Identifier
     |   NewArray    DataType BExpr
-    |   Ternary     BExpr BExpr BExpr
     deriving (Data, Typeable, Eq, Ord, Show)
 
 instance Num BExpr where

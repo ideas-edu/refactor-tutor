@@ -37,7 +37,7 @@ test_evalError:: Assertion
 test_evalError = do
     _ <- assertLeft $ evalCode "x = 1 + True;" 
     _ <- assertLeft $ evalCode "print(1);print(2+True);"
-    _ <- assertLeft $ evalCode "print(max(1,2) + (2+True));" -- gaat wel goed
+    _ <- assertLeft $ evalCode "print(max(1,2) + (2+True));"
     return ()
 
 test_evalCond :: Assertion

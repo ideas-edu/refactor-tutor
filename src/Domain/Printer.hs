@@ -122,7 +122,7 @@ instance Pretty Expression where
         ArrayAcc i index    -> pretty i <> brackets (pretty index)
         Property i prop     -> pretty i <> text "." <> pretty prop
         NewArray dt e       -> text "new" <+> pretty dt <+> brackets (pretty e)
-        Ternary c t f       -> pretty c <+> text " ? " <+> pretty t <+> text " : " <+> pretty f
+        Ternary c t f       -> pretty c <+> text "?" <+> pretty t <+> text ":" <+> pretty f
         where
             parenthesized = parenthesizedExpr pretty
             -- parens if needed

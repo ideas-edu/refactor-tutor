@@ -44,7 +44,7 @@ forToForeachBuggy = buggy $ ruleRewrite $ makeRewriteRule "forToForeachBuggy" $
   \i arr b -> For (ForInitDecls IntType [Assignment Assign (IdExpr i) (LiteralExpr (IntLiteral 0))]) [Infixed Less (IdExpr i) (Property arr (Identifier {name = "length"}))] [Postfixed Incr (IdExpr i)] b :~> ForEach IntType i (IdExpr arr) b
 -}
 
--- | 
+-- | Buggy rule for incorrectly transforming an for loop into a foreach by forgetting to update the body. This rule will only work if the body in both the for and foreach are the same.
 forToForeachBuggy :: Rule Statement
 forToForeachBuggy = buggy $ makeRule "forToForeachViewBuggy" f'
   where

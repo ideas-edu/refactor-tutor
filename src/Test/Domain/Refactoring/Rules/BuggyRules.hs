@@ -37,3 +37,8 @@ test_compoundAdditionBuggy = assertJustEq after $ apply compoundAdditionBuggy be
     before = ExprStat (Assignment Assign (IdExpr (Identifier {name = "x"})) (Infixed Addition (IdExpr (Identifier {name = "x"})) (LiteralExpr (IntLiteral 3))))
     after = ExprStat (Assignment Assign (IdExpr (Identifier {name = "x"})) (Prefixed Plus (LiteralExpr (IntLiteral 3))))
 
+test_forToForeachBuggy :: Assertion
+test_forToForeachBuggy = assertJustEq after $ apply forToForeachBuggy before
+  where
+    before = For (ForInitDecls IntType [Assignment Assign (IdExpr (Identifier {name = "i"})) (LiteralExpr (IntLiteral 0))]) [Infixed Less (IdExpr (Identifier {name = "i"})) (Property (Identifier {name = "items"}) (Identifier {name = "length"}))] [Postfixed Incr (IdExpr (Identifier {name = "i"}))] (Block 0 [ExprStat (Call (Identifier {name = "print"}) [ArrayAcc (Identifier {name = "items"}) (IdExpr (Identifier {name = "i"}))])])
+    after = ForEach BoolType (Identifier {name = "i"}) (IdExpr (Identifier {name = "items"})) (Block 0 [ExprStat (Call (Identifier {name = "print"}) [ArrayAcc (Identifier {name = "items"}) (IdExpr (Identifier {name = "i"}))])])

@@ -41,7 +41,7 @@ jobs:
         env:
           RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
         run: |
-          sudo apt install -qqy rclone
+          sudo apt install -y rclone &>/dev/null
 
           # Download the base version of rpt to compare to
           wget --quiet https://github.com/${{ github.repository }}/releases/download/v1.1.0/rpt --output-document base-rpt && chmod +x base-rpt

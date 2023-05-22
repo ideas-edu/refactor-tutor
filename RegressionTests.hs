@@ -16,12 +16,15 @@ import Data.Text (Text)
 import qualified Data.Text.IO as TIO
 import Data.List
 
+-- | Order of diagnose results, from worst to best (higher index is better)
 status_list :: [Text]
-status_list = ["", "syntaxerror", "notequiv", "similar", "correct", "expected", "buggy"]
+status_list = ["", "syntaxerror", "notequiv", "similar", "correct", "buggy", "expected"]
 
-getScore :: Maybe Text -> Int
-getScore status = fromMaybe 0 $ elemIndex (fromMaybe "" status) status_list
+-- | Get score from status string
+getScore :: Text -> Int
+getScore status = fromMaybe 0 $ elemIndex status status_list
 
+-- | Run query (`sql`) on sqlite database (`dbPath`)
 loadFromDB :: String -> String -> IO [[SqlValue]]
 loadFromDB dbPath sql = do
     conn <- connectSqlite3 dbPath
@@ -29,25 +32,31 @@ loadFromDB dbPath sql = do
     disconnect conn
     return dat
 
-getInputOutput :: String -> IO [(String, String)]
-getInputOutput database = do
-  results <- loadFromDB database "select input, output from requests where service = 'diagnoser';"
-  return $ map (\(x:y:_) -> (fromSql x, fromSql y)) results 
+-- | Get list of input requests from sqlite database with path `database`
+getInputs :: String -> IO [String]
+getInputs database = do
+  results <- loadFromDB database "select input from requests where service = 'diagnoser';"
+  return $ map (fromSql . head) results 
 
+-- | Run compiled rpt at path `file` with input request `input`
 runRpt :: String -> String -> IO String
 runRpt file input = do
   _ <- writeFile "input.json" input
   readProcess file ["--file=input.json"] ""
 
-getStatus :: String -> Maybe Text
-getStatus result = do
+-- | From result json object, retrieve diagnose result (one of `status_list`)
+getStatus :: String -> Text
+getStatus result = fromMaybe "" $ do
   obj <- (decode $ BLU.fromString result :: Maybe Object)
   status <- (parseMaybe (\o -> o .: "result") obj :: Maybe Object)
   return $ fst $ head $ HM.toList status
-
-processEntry :: String -> String -> Int -> [(String, String)] -> IO Int
-processEntry base compare dif [] = return dif
-processEntry base compare dif ((input, _):xs) = do
+  
+-- | Process a list of requests by comparing `base` and `compare` (two paths to rpt executables)
+-- `diff` and `count` start off being `0`
+-- Returns a score (number of steps improved in `status_list` overall) and number of better diagnoses
+processEntry :: String -> String -> Int -> Int -> [String] -> IO (Int, Int)
+processEntry base compare dif count [] = return (dif, count)
+processEntry base compare dif count (input:xs) = do
 
   old_output <- runRpt base input
   new_output <- runRpt compare input
@@ -61,7 +70,7 @@ processEntry base compare dif ((input, _):xs) = do
   let difference = new_points - old_points
   
   if difference >= 0
-    then processEntry base compare (dif + difference) xs
+    then processEntry base compare (dif + difference) (if difference == 0 then count else count + 1) xs
     else do
       putStrLn "Test case failed!"
       print old_status
@@ -74,16 +83,18 @@ processEntry base compare dif ((input, _):xs) = do
       putStrLn old_output
       putStrLn new_output
       
-      return 0  
+      error "Test case failed!"  
 
+-- Handle input arguments
 main :: IO ()
 main = do
   args <- getArgs
   case args of
     [database, base, compare] -> do
-      items <- getInputOutput database
-      score <- processEntry base compare 0 items
+      items <- getInputs database
+      (score, count) <- processEntry base compare 0 0 items
       putStrLn $ "New score: " ++ show score
+      putStrLn $ "New diagnoses matched: " ++ show count
       return ()
     _ -> do
       name <- getProgName

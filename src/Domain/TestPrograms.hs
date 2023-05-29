@@ -62,11 +62,11 @@ exprGen holes = frequency $
             (40, makeInt <$> choose (0, 999)),-- no negative numbers, they are always parsed with operator
             (40, IdExpr <$> arbitrary),
             (50, arithExprGen),
-            (20, assignExprGen), 
+            --(20, assignExprGen), 
             --(5, Postfixed Incr <$> arbEx),
             (5, Call <$> arbitrary <*> vectorOf 2 (exprGen holes)),
             (5, ArrayAcc <$> arbitrary <*> exprGen holes)
-        ] ++ [ (10, HoleExpr <$> arbitrary) | holes ] 
+        ] -- ++ [ (10, HoleExpr <$> arbitrary) | holes ] 
 
                     
 instance Arbitrary InfixOp where

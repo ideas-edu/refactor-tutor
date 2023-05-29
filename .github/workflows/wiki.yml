@@ -1,0 +1,24 @@
+name: Update wiki
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: github-docs-to-wiki
+        uses: cmbrose/github-docs-to-wiki@v0.24
+        with:
+          githubToken: ${{ secrets.PAT_TOKEN }}
+          defaultBranch: 'main'
+          useHeaderForWikiName: true
+          customCommitMessageFormat: 'Update wiki to {shaShort}'
+          rootDocsFolder: 'docs'
+
+            

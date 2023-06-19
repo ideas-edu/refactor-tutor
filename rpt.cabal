@@ -10,7 +10,7 @@ common deps
                    containers,
                    uniplate,
                    time,
-                   wl-pprint,
+                   wl-pprint == 1.2.1,
                    array,
                    pretty,
                    parsec,

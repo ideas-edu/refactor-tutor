@@ -85,7 +85,7 @@ feedbacktextdeep script old ctx =
       Buggy _ _       -> (False, output, old, False, "buggy")
       NotEquivalent _ -> (False, output, old, False, "notequivalent")
       Expected r s _  -> (True , output, s, r, "expected") 
-      Similar r s     -> (True , output, s, r, "similar")
+      Similar r s _   -> (True , output, s, r, "similar")
       Detour r s _ _  -> (True , output, s, r, "detour")
       Correct r s     -> (False, succMsg, s, r, "correct")
       Unknown r s     -> (False, gaveUpMsg, s, r, "unknown")

@@ -59,7 +59,7 @@ deepdiagnose s new
    -- Is the submitted term (very) similar to the previous one? 
    | similarity ex (stateContext state) new =
         -- If yes, report this
-        Similar (finished state) state
+        Similar (finished state) state Nothing
 
   -- old fp
    -- Was the submitted term expected by the strategy?

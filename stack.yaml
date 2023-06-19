@@ -9,6 +9,6 @@ extra-deps:
   commit: 0285358d4d703d9daf2c65baa2c2d3d782b344df
 - git: https://github.com/bgamari/hdbc-sqlite3.git
   commit: 1562ea5b6b97309c86d2fc5ae172a530f943c86c
-- QuickCheck-2.11.3@sha256:5e8e84718b2a47ba2986732adf9fd8888f2bef965854ed3a0beb14e8da938389,5499
 - streaming-commons-0.1.19@sha256:d11aea24fbf6dc95594f3213b8985726baf0abf870e49d6b3f5ac60d4e4f3125,5333
 - wl-pprint-1.2.1@sha256:aea676cff4a062d7d912149d270e33f5bb0c01b68a9db46ff13b438141ff4b7c,734
+- QuickCheck-2.11.3@sha256:5e8e84718b2a47ba2986732adf9fd8888f2bef965854ed3a0beb14e8da938389,5499

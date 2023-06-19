@@ -92,7 +92,7 @@ diagnoseR state new =
 
             -- Similar?
             -- moved for empty exercises
-            | similarity ex (stateContext state) parsedNew = return $ Similar (finished state) state
+            | similarity ex (stateContext state) parsedNew = return $ Similar (finished state) state Nothing
 
             -- Recognised step?
             | isJust (expected parsedNew)  =
@@ -160,7 +160,7 @@ diagnoseTextRold script old ctx = do
       Buggy _ _       -> (False, output diagnosis, old, False, "buggy")
       NotEquivalent _ -> (False, output diagnosis, old, False, "notequivalent")
       Expected r s _  -> (True , output diagnosis, s, r, "expected") 
-      Similar r s     -> (True , output diagnosis, s, r, "similar")
+      Similar r s _   -> (True , output diagnosis, s, r, "similar")
       Detour r s _ _  -> (True , output diagnosis, s, r, "detour")
       Correct r s     -> (False, succMsg, s, r, "correct")
       Unknown r s     -> (False, gaveUpMsg, s, r, "unknown")

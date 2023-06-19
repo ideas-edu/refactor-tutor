@@ -173,4 +173,6 @@ feedback decrementAssignBuggy       = Using -- to decrement a variable can stand
 feedback compoundSubtractionBuggy   = The compound subtraction operator is -=, using =- will assign a negative number. a =- 3 is the same as a = -3.
 feedback compoundAdditionBuggy      = The compound addition operator is +=, using =+ will assign a positive number. a =+ 3 is the same as a = +3.
 
+feedback forToForeachViewBuggy      = You forgot to update an variable accessing the array in the foreach, for example values[i] should become i.
+
 # keep empty line at end

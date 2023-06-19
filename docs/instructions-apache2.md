@@ -1,5 +1,4 @@
 # Installation Instructions Apache2
-
 If you want to start using apache2 directly, you will first need to create a folder of exercises. These have the following structure:
 
 ```
@@ -17,7 +16,7 @@ You will need to set up two things: The backend CGI service and the static html/
 
 Once you have finished with the frontend, you need to upload the backend. To do this, download `rpt-cgi.tar.gz` and extract it to a cgi-enabled folder, for example `/usr/local/apache2/cgi-bin`. To make this folder work, you will usually need to edit apache config. Add or uncomment the following line:
 
-```apache2
+```apache
 ScriptAlias /cgi-bin/ "/usr/local/apache2/cgi-bin/"
 ```
 
@@ -27,10 +26,11 @@ Finally, to enable or disable the login screen, use one of the following options
 1. Replace the `login` file next to the `rpt` cgi file. To enable the login screen enter the value `true` in the file, to disable it enter `false`. 
 2. Leave the `login` file as it is and add the following line to your apache config.
 
-```apache2
+```apache
 SetEnv LOGIN_ENABLED false
 ```
 
+\clearpage
 After all these steps you should have something similar to the following:
 
 ```

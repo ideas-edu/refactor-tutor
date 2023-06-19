@@ -1,5 +1,4 @@
 # Installation Instructions Docker
-
 If you want to get started using docker, make sure you have docker installed first.
 
 You can use the `stephanstanisic/refactor-tutor` image on docker hub to deploy the refactor tutor together with a preconfigured apache2 webserver.
@@ -19,7 +18,7 @@ Once you have a set of exercises you can use the following docker command to sta
 ```bash
 docker run \
   -p 8080:80 \
-  -c "$(pwd)/exercises:/usr/local/apache2/cgi-bin/exercises" \
+  -v "$(pwd)/exercises:/usr/local/apache2/cgi-bin/exercises" \
   -e "RPT_LOGIN_ENABLED=false" \
   stephanstanisic/refactor-tutor
 ```
@@ -43,3 +42,5 @@ services:
 Then use `docker compose up -d` to start the container.
 
 After using either of these two methods the refactor tutor will be available at `http://localhost:8080`. If you want to expose this to the internet, you will have to configure a TLS-terminating reverse proxy yourself.
+
+

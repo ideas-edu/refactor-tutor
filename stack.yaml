@@ -5,8 +5,8 @@ packages:
 
 extra-deps:
 - ConfigFile-1.1.4
-- git: https://github.com/StephanStanisic/ideas.git
-  commit: 0285358d4d703d9daf2c65baa2c2d3d782b344df
+- git: https://github.com/ideas-edu/ideas.git
+  commit: 13bc304e78aa78d0dec6e0e5e9e7a31aa6715390
 - git: https://github.com/bgamari/hdbc-sqlite3.git
   commit: 1562ea5b6b97309c86d2fc5ae172a530f943c86c
 - streaming-commons-0.1.19@sha256:d11aea24fbf6dc95594f3213b8985726baf0abf870e49d6b3f5ac60d4e4f3125,5333

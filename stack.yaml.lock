@@ -12,16 +12,16 @@ packages:
   original:
     hackage: ConfigFile-1.1.4
 - completed:
-    commit: 0285358d4d703d9daf2c65baa2c2d3d782b344df
-    git: https://github.com/StephanStanisic/ideas.git
+    commit: 13bc304e78aa78d0dec6e0e5e9e7a31aa6715390
+    git: https://github.com/ideas-edu/ideas.git
     name: ideas
     pantry-tree:
-      sha256: 7da73d8e5d80dc81c8c613434dc4ba51ae5a158cdb6fe9e60476caae37b31e77
-      size: 9710
-    version: '1.8'
+      sha256: 2a7162272158751550727317d46570e787c6c622e1239d6b03a4781dca6e7054
+      size: 9940
+    version: 1.8.1
   original:
-    commit: 0285358d4d703d9daf2c65baa2c2d3d782b344df
-    git: https://github.com/StephanStanisic/ideas.git
+    commit: 13bc304e78aa78d0dec6e0e5e9e7a31aa6715390
+    git: https://github.com/ideas-edu/ideas.git
 - completed:
     commit: 1562ea5b6b97309c86d2fc5ae172a530f943c86c
     git: https://github.com/bgamari/hdbc-sqlite3.git

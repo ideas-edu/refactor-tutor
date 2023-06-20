@@ -1,5 +1,9 @@
+#!/usr/bin/env cabal
+{- cabal:
+build-depends: base, HDBC-sqlite3, HDBC, process, text, aeson, unordered-containers, utf8-string
+-}
 {-# LANGUAGE OverloadedStrings #-}
-module RegressionTests where
+module Main where
 
 import Database.HDBC.Sqlite3
 import Database.HDBC
@@ -8,6 +12,8 @@ import System.Environment
 import System.Exit
 import System.Process
 import Data.Aeson
+import qualified Data.Aeson.KeyMap as KM
+import qualified Data.Aeson.Key as K
 import Data.Aeson.Types
 import Data.Maybe
 import qualified Data.ByteString.Lazy.UTF8 as BLU
@@ -49,7 +55,7 @@ getStatus :: String -> Text
 getStatus result = fromMaybe "" $ do
   obj <- (decode $ BLU.fromString result :: Maybe Object)
   status <- (parseMaybe (\o -> o .: "result") obj :: Maybe Object)
-  return $ fst $ head $ HM.toList status
+  return $ K.toText $ fst $ head $ KM.toList status
   
 -- | Process a list of requests by comparing `base` and `compare` (two paths to rpt executables)
 -- `diff` and `count` start off being `0`

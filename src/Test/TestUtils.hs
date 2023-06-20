@@ -90,7 +90,7 @@ newState' diagnosis =
    case diagnosis of
       Buggy _ _        -> Nothing
       NotEquivalent _  -> Nothing
-      Similar  _ s     -> Just s
+      Similar  _ s _   -> Just s
       WrongRule _ s _  -> Just s
       Expected _ s _   -> Just s
       Detour   _ s _ _ -> Just s

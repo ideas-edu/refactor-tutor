@@ -2,23 +2,25 @@ FROM rpt-builder as builder
 USER user
 WORKDIR /home/user
 ENV GHCUP_INSTALL_BASE_PREFIX=/opt/ghcup
+RUN mkdir rpt
 
 # Create an empty projecr
-RUN bash -ic "stack new rpt; exit"
+#RUN bash -ic "stack new rpt; exit"
 WORKDIR /home/user/rpt
 # We need *some* content here to trick cabal into building the empty project
-RUN rm package.yaml; \
-    mkdir -p src/Test; \
+RUN mkdir -p src/Test; \
     echo 'main = putStrLn "Hello, world!"' > src/Main.hs; \
-    echo 'main = putStrLn "Hello, world!"' > src/Test/IPTTests.hs;
+    echo 'main = putStrLn "Hello, world!"' > src/Test/Tests.hs;
 
 # Build it, and by doing so cache the libraries into the docker image layer
-COPY --chown=user rpt.cabal stack.yaml ./
-RUN bash -ic "stack build; exit"
+COPY --chown=user rpt.cabal cabal.project ./
+RUN bash -ic "cabal build; exit"
 
 # Now we can copy in our own code and build that. If we change anything here we won't have to rebuild all the dependencies every time.
 COPY --chown=user ./src ./src
-RUN bash -ic "stack build; exit"
+RUN bash -ic "cabal build; exit"
+# No globbing in the docker COPY so we do it here
+RUN find . -name rpt -type f -exec cp {} rpt \;
 
 # Switch to apache2 image and lose the haskell toolchain
 FROM httpd:bullseye as runner
@@ -29,7 +31,7 @@ RUN apt update; apt install -y libsqlite3-dev zlib1g-dev
 # Copy in frontend and rpt cgi
 RUN rm -rf /usr/local/apache2/htdocs/*
 COPY ./www /usr/local/apache2/htdocs
-COPY --from=builder /home/user/rpt/.stack-work/dist/x86_64-linux/Cabal-2.4.0.1/build/rpt/rpt /usr/local/apache2/cgi-bin/rpt
+COPY --from=builder /home/user/rpt/rpt /usr/local/apache2/cgi-bin/rpt
 COPY ./.docker/login /usr/local/apache2/cgi-bin/login
 COPY ./scripts/ref.txt /usr/local/apache2/cgi-bin/ref.txt
 RUN chown -R daemon /usr/local/apache2/cgi-bin

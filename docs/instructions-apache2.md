@@ -30,7 +30,6 @@ Finally, to enable or disable the login screen, use one of the following options
 SetEnv LOGIN_ENABLED false
 ```
 
-\clearpage
 After all these steps you should have something similar to the following:
 
 ```

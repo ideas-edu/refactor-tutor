@@ -3,7 +3,7 @@
 
 # Containers
 
-On the next page, in figure \ref{containers}, an overview of the different containers is given. This overview is not complete: it only contains the parts of the refactor tutor that are relevant to this project.
+On the next page, in the figure below an overview of the different containers is given. This overview is not complete: it only contains the parts of the refactor tutor that are relevant to this project.
 
 The tutor consists of a Domain Reasoner, a datatype from the Ideas framework. This Domain Reasoner contains all necessary configuration for the Ideas framework to generate feedback. This configurations most importantly contains a list of exercises: this is what the student works on. An exercise is defined by the following properties:
 

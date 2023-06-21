@@ -37,7 +37,7 @@ cd2 -d-> hub : Upload artifact
 @enduml
 ```
 
-![Deploying a new release](images/release-flow.png)
+In order to release a new version of the refactor tutor, only a [new release has to be tagged](https://github.com/ideas-edu/refactor-tutor/releases/new) on github. It is important that the tag name for this (in the dropdown choose tag, type in a new one to create a new tag) follows semantic versioning in the following format: `v0.0.0`.
 
 ## Considerations for running in the cloud
 

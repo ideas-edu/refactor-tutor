@@ -3,7 +3,7 @@
 
 # Global Architecture
 
-The tutor is build up from a server-client architecture. The client, a webpage, communicates with the server over HTTP requests to a single CGI endpoint. Figure \ref{system} shows this in more detail.
+The tutor is build up from a server-client architecture. The client, a webpage, communicates with the server over HTTP requests to a single CGI endpoint. The figure below shows this in more detail.
 
 ```plantuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/d193a84febce699caf236e3115dbed5ac8418397/C4_Container.puml

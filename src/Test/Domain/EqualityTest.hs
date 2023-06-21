@@ -12,7 +12,7 @@ import Domain.Base.Conversion
 import Domain.TestPrograms
 import Test.Framework
 --import Test.Framework.TestInterface (Assertion)
-import Test.HUnit.Base
+import Test.HUnit.Base (Assertion)
 import Ideas.Common.Library as I
 import Data.Maybe
 import Domain.Parsers.JavaParser

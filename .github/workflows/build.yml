@@ -32,7 +32,7 @@ jobs:
 
       - name: Build
         run: |
-          bash -ci "cabal build; exit"
+          bash -ci "cabal build; exit $?"
 
           find . -name rpt -type f -exec cp {} rpt \;
           cp .docker/login login
@@ -40,6 +40,12 @@ jobs:
           cp scripts/ref.txt ref.txt
           tar czf rpt-web.tar.gz www
           tar czf rpt-cgi.tar.gz exercises ref.txt rpt login
+
+      - name: Unit and Property Test
+        run: |
+          bash -ci "cabal test; exit"
+          find dist-newstyle/ -name '*-tests.log' -type f -exec mv {} tests.log \;
+          cat tests.log
 
       - name: Regression Test
         env:
@@ -55,7 +61,7 @@ jobs:
           
           # Get database from onedrive and run tests
           rclone --config rclone.conf copy OneDrive:rpt/requests-rpt-cleaned-enhanced.db .
-          ./RegressionTests.hs $PWD/requests-rpt-cleaned-enhanced.db $PWD/base-rpt $PWD/rpt
+          ./RegressionTests.hs $PWD/requests-rpt-cleaned-enhanced.db $PWD/base-rpt $PWD/rpt | tee regression-test.log
 
           # Remove files
           rm -rf rclone.conf requests-rpt-cleaned-enhanced.db
@@ -69,6 +75,8 @@ jobs:
             rpt
             rpt-web.tar.gz
             rpt-cgi.tar.gz
+            tests.log
+            regression-test.log
 
       - name: Release
         uses: softprops/action-gh-release@v1

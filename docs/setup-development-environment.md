@@ -49,16 +49,10 @@ To enter a ghci repl, usr
 cabal repl
 ```
 
-To run unit and property tests, make sure `htfpp` is in the path, then use
+To run unit and property tests use
 
 ```bash
 cabal test
-```
-
-If you can't install `htfpp` then try stack, it comes with htfpp pre-installed:
-
-```bash
-stack test
 ```
 
 To run regression tests use

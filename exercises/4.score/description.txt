@@ -1,10 +1,6 @@
 The calculateScore method calculates the score for a train trip. The highest score is 10. The score is based on the number of changes and the day of the week (Monday is 1, Sunday is 7). 
 
-Dutch Railways (NS) has designed the following calculation:
-Base score: 10 
-For each change: -1 
-Trip on a weekday: -3 
+Dutch Railways (NS) has designed the following calculation:<br>Base score: 10<br>For each change: -1<br>Trip on a weekday: -3 
 
 Example test case: for a trip with 2 changes on a Wednesday (day 3), calculateScore(2, 3) returns a score of 5 (10-2-3)
-
 The code is already correct, but can you improve this program?

@@ -24,15 +24,21 @@ jobs:
             /home/runneradmin/.bashrc
           key: ${{ runner.os }}-build-${{ hashFiles('cabal.project') }}-${{ hashFiles('rpt.cabal') }}
 
-      - name: Setup
+      - name: Setup GHC
         if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         run: |
           export SHELL=/bin/bash
           .docker/setup.sh
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
       - name: Build
         run: |
-          bash -ci "cabal build; exit $?"
+          bash -ci "cabal build; exit"
+          bash -ci "cd www; npm i; npx rollup -p @rollup/plugin-node-resolve index.js > bundle.js; exit"
 
           find . -name rpt -type f -exec cp {} rpt \;
           cp .docker/login login

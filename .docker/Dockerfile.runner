@@ -22,6 +22,15 @@ RUN bash -ic "cabal build; exit"
 # No globbing in the docker COPY so we do it here
 RUN find . -name rpt -type f -exec cp {} rpt \;
 
+# Build frontend
+FROM node:20 as js-builder
+
+WORKDIR /home/user/rpt
+COPY ./www ./www
+WORKDIR /home/user/rpt/www
+RUN npm i
+RUN npx rollup -p @rollup/plugin-node-resolve index.js > bundle.js
+
 # Switch to apache2 image and lose the haskell toolchain
 FROM httpd:bullseye as runner
 
@@ -30,7 +39,7 @@ RUN apt update; apt install -y libsqlite3-dev zlib1g-dev
 
 # Copy in frontend and rpt cgi
 RUN rm -rf /usr/local/apache2/htdocs/*
-COPY ./www /usr/local/apache2/htdocs
+COPY --from=js-builder /home/user/rpt/www /usr/local/apache2/htdocs
 COPY --from=builder /home/user/rpt/rpt /usr/local/apache2/cgi-bin/rpt
 COPY ./.docker/login /usr/local/apache2/cgi-bin/login
 COPY ./scripts/ref.txt /usr/local/apache2/cgi-bin/ref.txt

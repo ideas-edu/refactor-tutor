@@ -1,0 +1,167 @@
+* { box-sizing: border-box; }
+
+html, body, nav, main {
+        height: 100%;
+        max-height: 100%;
+        overflow-y: auto;
+}
+
+body {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        font-family: 'Roboto', sans-serif;
+        
+        padding: 0 40px;
+        margin: 0;
+}
+
+nav {
+        width: 500px;
+        min-width: 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 40px 0;
+}
+#hints {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+}
+
+nav .logo {
+        display: flex;
+        padding: 20px 0px;
+        align-items: center;
+        gap: 20px;
+        align-self: stretch; 
+}
+
+nav .logo svg {
+        width: 64px;
+        height: 64px; 
+}
+
+nav .logo h1 {
+        font-size: 36px;
+        line-height: 44px; 
+}
+
+.exselect {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+}
+#exlist {
+        display: block;
+        flex-grow: 1;
+}
+
+.chip {
+        display: flex;
+        align-items: center;
+        padding: 6px 12px 6px 8px; 
+        gap: 8px; 
+
+        border-radius: 8px;
+        background: var(--md-sys-color-secondary-container);
+        color: var(--md-sys-color-on-secondary-container);
+
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px; 
+}
+
+.chip svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--md-sys-color-primary);
+}
+
+.chip.correct {
+        background: var(--md-green-sys-color-secondary-container);
+        color: var(--md-green-sys-color-on-secondary-container);
+}
+.chip.correct svg path {
+        fill: var(--md-green-sys-color-primary);
+}
+
+.chip.failure {
+        background: var(--md-red-sys-color-secondary-container);
+        color: var(--md-red-sys-color-on-secondary-container);
+}
+.chip.failure svg path {
+        fill: var(--md-red-sys-color-primary);
+}
+
+.card {
+        display: flex;
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        align-self: stretch; 
+
+        background-color: var(--md-sys-color-surface);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 12px; 
+        align-items: stretch;
+}
+
+.card h3 {
+        color: var(--md-sys-color-on-surface);
+
+        font-size: 16px;
+        line-height: 24px; 
+}
+.card p {
+        color: var(--md-sys-color-on-surface-variant);
+
+        font-size: 14px;
+        line-height: 20px; 
+        margin-bottom: 8px;
+}
+.card code {
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.30);
+        background: #FFF; 
+        font-family: 'Roboto Mono', monospace;
+        padding: 8px;
+        display: block;
+}
+.card .actions {
+        display: flex;
+        justify-content: flex-end;
+}
+
+main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 40px 0;
+}
+
+main .exercise {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+}
+
+main .exercise h2 {
+        font-size: 32px;
+        line-height: 40px; 
+}
+
+main .exercise p {
+        font-size: 16px;
+        font-family: Roboto;
+        line-height: 24px; 
+}
+
+#editor {
+        border: 1px solid #aaa;
+        border-radius: 12px; 
+        flex-grow: 1;
+        min-height: 600px;
+}

@@ -64,17 +64,18 @@
         <script src="rpt.js"></script>
         
         <script>
+			window.$_ = jQuery;
             
-            $(document).ready(function () {
+            $_(document).ready(function () {
                 getLoginRequired(function(r){
                     if(!r) {
                         window.location = ".";
                     }
                 });
 
-                $("#errbox").hide();
-                $("#login").click(handleLogin);
-                $('#userid').keypress(function(ev) {
+                $_("#errbox").hide();
+                $_("#login").click(handleLogin);
+                $_('#userid').keypress(function(ev) {
                     if(ev.which == '13'){
                         handleLogin();
                         return false;

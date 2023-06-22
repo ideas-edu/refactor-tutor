@@ -96,3 +96,10 @@ To only build a docker image for production use, run
 make build-release
 ```
 
+
+## Working on the frontend
+
+1. Install nodejs version 20
+2. `cd www && npm i`
+3. Edit `index.js` to update material design imports from <https://github.com/material-components/material-web>.
+4. Run `npx rollup -p @rollup/plugin-node-resolve index.js > bundle.js` to update bundle

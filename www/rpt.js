@@ -27,40 +27,42 @@ var loginRequired = null;
 var hintlevel = -1;
 var userid = "0000";
 var currentExState = ExState.started;
+var previousSelectedIndex = 0;
 
 function initRPT() {
 
     if (!retrieveUser())
     {
+        toConsole("No user!");
         return;
     }
 
     setMode();
 
-    $("#submitr").click(diagnoseR);
-    $("#gethint").click(hint);
-    $("#gethints").click(hints);
-    $("#gethinttree").click(allhints);
-    $("#dostep").click(hint);
-    $("#toggleDebug").click(toggleDebug);
-    $("#loadex").click(function() {
+    $_("#submitr").click(diagnoseR);
+    $_("#gethint").click(hint);
+    $_("#gethints").click(hints);
+    $_("#gethinttree").click(allhints);
+    $_("#dostep").click(hint);
+    $_("#toggleDebug").click(toggleDebug);
+    $_("#loadex").click(function() {
         if (currentExState == ExState.done || currentExState == ExState.started) 
         {
             loadExercise();
         }
         else
         {
-            $('#sureNewEx').modal('show'); 
+            document.getElementById("dialog").open = true;
         }
     });
-    $('#exlist').change(exSelected)
-    $('#continueNewEx').click(function() {
-        $('#sureNewEx').modal('hide'); 
+    $_('#exlist').change(exSelected)
+    $_('#continueNewEx').click(function() {
+        document.getElementById("dialog").open = false;
         loadExercise();
     });
 
     hideAllMsg();
-    $("#debug").hide();
+    $_("#debug").hide();
 
     loadExercises();
     
@@ -78,15 +80,15 @@ function initRPT() {
 // Login page
 
 function getLoginRequired(callback) {
-    $.ajax({
+    $_.ajax({
         url: LOGIN_URL,
         success: function(r) {
             try {
                 loginRequired = JSON.parse(r);
                 callback(loginRequired);
             } catch (f) {
-                $("#err").html("Malformed response");
-                $("#errbox").show();
+                $_("#err").html("Malformed response");
+                $_("#errbox").show();
                 toConsole(f);
             }
         },
@@ -94,8 +96,8 @@ function getLoginRequired(callback) {
      }).fail(
          function (f)
          {
-            $("#err").html("Unknown error");
-            $("#errbox").show();
+            $_("#err").html("Unknown error");
+            $_("#errbox").show();
             toConsole(f);
          } 
      );
@@ -103,12 +105,12 @@ function getLoginRequired(callback) {
 
 function handleLogin()
 {
-    var id = $('#userid').val();
+    var id = $_('#userid').val();
     if (id.length === 0 || !id.trim() || !isValidId(id.trim()))
     {
-        $("#err").html('Please provide a valid id');
-        $("#errbox").show();
-        $('#userid').select();
+        $_("#err").html('Please provide a valid id');
+        $_("#errbox").show();
+        $_('#userid').select();
     }
     else
     {
@@ -184,24 +186,24 @@ function setMode()
 {
     if (!debug) 
     {
-        $("#gethint").hide();
-        $("#gethints").hide();
-        $("#dostep").hide();
-        $("#toggleDebug").hide();
+        $_("#gethint").hide();
+        $_("#gethints").hide();
+        $_("#dostep").hide();
+        $_("#toggleDebug").hide();
     }
 }
 function toggleDebug()
 {
     debug = ! debug;
-    $("#debug").toggle();
+    $_("#debug").toggle();
 }
 
 function toDebug(s)
 {
     if (debug)
     {
-        var curr = $("#debug").val();
-        $("#debug").val(s + "\n" + curr);
+        var curr = $_("#debug").val();
+        $_("#debug").val(s + "\n" + curr);
     }
 }
 
@@ -220,33 +222,57 @@ function loadExercises()
         {
             toConsole(res);
             exList = res.result;
-            $("#exlist").find('option').remove();
+            $_("#exlist").find('md-select-option').remove();
             if (exList.length == 0)
             {
-                $("#exlist").append("<option>No exercises</option>"); 
+                $_("#exlist").append("<md-select-option headline='No exercises'></md-select-option>"); 
             }
             else
             {
-                $(exList).each(function(i) { $("#exlist").append("<option>" +  exList[i].exerciseid + "</option>"); });
-                loadExercise();
+                $_(exList).each(function(i) { $_("#exlist").append(`<md-select-option headline="${exList[i].exerciseid}" value="${exList[i].exerciseid}"></md-select-option>`); });
+                setTimeout(function(){
+                    $_("#exlist")[0].selectedIndex = 0;
+                    loadExercise();
+                }, 100);
             }
         }
     );
 }
 
-function exSelected()
+function exSelected(e)
 {
-    var id = $('#exlist').find(":selected").text();
+    
+
+    if (currentExState == ExState.done || currentExState == ExState.started) 
+    {
+        loadExercise();
+    }
+    else
+    {
+        document.getElementById("dialog").open = true;
+
+        $_('#noNewEx').click(function() {
+            document.getElementById("dialog").open = false;
+            console.log(previousSelectedIndex);
+            $_("#exlist")[0].selectedIndex = previousSelectedIndex;
+        });
+    }
+
+    var id = $_('#exlist')[0].value;
     if (id != currExId)
     {
-        $("#loadex").html("Start exercise");
+        $_("#loadex").html("Start exercise");
     }
+
+    
 }
 
 function loadExercise()
 {
-    $("#loadex").html("Restart exercise");
-    var id = $('#exlist').find(":selected").text();
+    $_("#loadex").html("Restart exercise");
+    var id = $_('#exlist')[0].value;
+    previousSelectedIndex = $_("#exlist")[0].selectedIndex;
+    toConsole(id);
     currExId = id;
     var exercise = findEx(currExId);
 
@@ -256,7 +282,7 @@ function loadExercise()
     {
         return;
     }
-    $.get(DR_URL,
+    $_.get(DR_URL,
         'input=' + makeRequest("example", [id,0, userid]), 
         function(res)
         {
@@ -269,14 +295,14 @@ function loadExercise()
             saveState(res.result);
             editor.setValue(state.term);
 
-            $("#exname").html("Exercise: " + currExId);
-            $("#exdesc").html(toHTML(exercise.description));
+            $_("#exname").html("Exercise: " + currExId);
+            $_("#exdesc").html(toHTML(exercise.description));
             
             // prepare editor
             editor.getSession().setUndoManager(new ace.UndoManager()); // clear edit history
             editor.setValue(state.term);
             editor.gotoLine(1);
-            $("#editor").focus();
+            $_("#editor").focus();
           
             resetHintlevel();
             currentExState = ExState.started;
@@ -452,7 +478,7 @@ function hints(ev)
                 for (i = 0; i < results.length;i++)
                 {     
                      res += "<li>" + results[i][0] + "<br>";
-                    //$('#msgs').append('<div class="alert" > <span id="feedbacktext"></span></div>');
+                    //$_('#msgs').append('<div class="alert" > <span id="feedbacktext"></span></div>');
                     
                 }
                 showMsg(res,  msgtype.HINT);
@@ -557,21 +583,31 @@ function getallhints(ev)
             //tree[DESCRIPTION] = "";//<strong>Options:</strong>";
             numberTree(tree, 0);
             numberNextSib(tree, -1);
-            var hintTree = createTree(tree);
+            var hintTree = createTree(tree, 0);
+            toConsole(hintTree)
             
-            showMsg(hintTree,  msgtype.HINT);
-            $("[id|='l']").hide(); // hide all  
-            $("[id|='more-0']").hide();
-            $("[id|='l-0']").show(); //show root           
-            $("[id|='l-1']").show(); //show top level        
+            $_("#hints").html(hintTree);
+            $_("[id|='l']").hide(); // hide all  
+            $_("[id|='more-0']").hide();
+            $_("[id|='l-0']").show(); //show root           
+            $_("[id|='l-1']").show(); //show top level   
+            $_("#newhint").click(function() {
+                let left = $_("[id^='alt-']:not(.used)");
+                left.first().click();
+                if(left.length <= 1) {
+                    $_("#newhint").hide();
+                }
+            });     
             
              // add handlers 
-            $("[id|='more']").click(function more (e) {          
-                hintAction(e, Hint.expand, tree, $(this))             
+            $_("[id|='more']").click(function more (e) {          
+                hintAction(e, Hint.expand, tree, $_(this))             
             });
-            $("[id|='alt']").click(function alt(e) {
+            $_("[id|='alt']").click(function alt(e) {
                 hintAction(e, Hint.alt, tree)
             });
+
+            $_("#hints").show();
         }   
     );
 }
@@ -589,8 +625,9 @@ function hintAction(e, type, tree,)
     {
         toShowId = getNode(tree, fromId);
     }
-    $('#l-' + toShowId).show();    
-    $(e.currentTarget).hide();               
+    $_('#l-' + toShowId).show();    
+    $_(e.currentTarget).hide();
+    $_(e.currentTarget).addClass("used");
 
     reportHintAction(tree, fromId, toShowId, type);
 }
@@ -599,8 +636,8 @@ function reportHintAction(tree, fromNr, toNr, type)
 {
     //console.log('clicked on ' + fromNr + ', ' + type + ' to ' + toNr);
 
-    var fromS = $('#t-' + fromNr).text();
-    var toS = $('#t-' + toNr).text();
+    var fromS = $_('#t-' + fromNr).text();
+    var toS = $_('#t-' + toNr).text();
     
     serviceCall(makeRequest("expandHint", [stateToArray(state), fromNr, type, 
             prepareCode(encodeURIComponent(fromS)), prepareCode(encodeURIComponent(toS))]), // could be code
@@ -616,12 +653,12 @@ function stepsRemaining()
             var steps = response.result;
             if (steps > 0)
             {
-                $("#stepsleft").html('There are still some improvements left (' + steps + ')');
-                $("#stepsleft").show();
+                $_("#stepsleft").html(`There ${steps == 1 ? 'is' : 'are'} still ${steps} improvement${steps == 1 ? '' : 's'} left.`);
+                $_("#stepsleft").show();
             }
             else
             {
-                $("#stepsleft").hide();
+                $_("#stepsleft").hide();
             }
         }
     ); 
@@ -681,7 +718,7 @@ function numberNextSib(tree, nr)
     } 
 }
 
-function createTree (tree)
+function createTree (tree, depth)
 {
     if (tree == {} || tree == null)
         return "";
@@ -700,26 +737,39 @@ function createTree (tree)
 
     var descPart = "<span id ='" + textId + "'>" + desc + "</span>";
 
-    var more = '<br><button type="button" class="btn btn-link btn-xs" id="' + moreId+ '">Explain more <i class="fa fa-plus-square" aria-hidden="true"></i></button>';      
+    var more = `<div>
+        <md-text-button id="${moreId}">
+            Explain more
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M450-200v-250H200v-60h250v-250h60v250h250v60H510v250h-60Z"/></svg>
+        </md-text-button>
+    </div>`;
 
     var alt = "";
     if (nextSib >= 0)
-        alt = '<button type="button" class="btn btn-link btn-xs" id="' + altId+ '">Another hint <i class="fa fa-level-down" aria-hidden="true"></i></button>';       
+        alt = '<button type="button" class="btn btn-link btn-xs" id="' + altId+ '" style="display:none">Another hint <i class="fa fa-level-down" aria-hidden="true"></i></button>';       
     
     if (branches.length == 0 && hinttype === "step")
-        return "<li id='" + id + "'>" +  "Try to use this example code: <pre class='card p-2' id ='" + textId + "'><code>" + desc + "</code></pre>" + alt;
+        return `<div id='${id}'><p>Try to use this example code:</p><pre id='${textId}'><code>${desc}</code></pre></div>${alt}`;
+        //return "<li id='" + id + "'>" +  "Try to use this example code: <pre class='card p-2' id ='" + textId + "'><code>" + desc + "</code></pre>" + alt;
 
     if (branches.length == 0)
-        return "<li id='" + id + "'>" + descPart + alt;
+        return `<div id='${id}'>${descPart}</div>${alt}`;
+        //return "<li id='" + id + "'>" + descPart + alt;
     
     // there are children
     var res = "";
     for (var i = 0; i < branches.length;i++)
     {
-        res += createTree (branches[i]);
+        res += createTree (branches[i], depth+1);
     }  
     
-    return "<li id='" + id + "'>" + descPart + more + alt + "</li>"  + "<ul>" + res + "</ul>";
+    if(depth == 0)
+        return res + `<div><md-outlined-button id="newhint">New hint <svg slot="icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M450-200v-250H200v-60h250v-250h60v250h250v60H510v250h-60Z"/></svg></md-outlined-button></div>`;
+    else if(depth == 1) 
+        return "<div class='card' id='" + id + "'>" + `<h3>${descPart}</h3>` + res + more + "</div>" + alt;
+    else
+        return "<div id='" + id + "'>" + `<p>${descPart}</p>` + res + more + "</div>" + alt;
+
 }
 
 
@@ -770,7 +820,7 @@ var msgtype = {
     WARNING  : 3
     
 }
-var alertClasses = ["alert-danger", "alert-info", "alert-success", "alert-warning"];
+var alertClasses = ["", "theme-green", "theme-green", "theme-red"];
 var typeTexts = ["Error", "Hint", "Feedback", "Feedback"];
 
 function diagToMsgType(diagString)
@@ -784,28 +834,29 @@ function diagToMsgType(diagString)
 
 function showMsg(msg, type)
 {
-    $("#feedbackbox").show();
-    $("#feedbacktext").html('<strong>' + typeTexts[type] + '</strong>: ' + msg);
+    $_("#feedbackbox").show();
+    $_("#feedbacktext").html('<strong>' + typeTexts[type] + '</strong>: ' + msg);
     
-    $("#feedbackbox").removeClass( "alert-danger alert-info alert-succes alert-warning" );
-    $("#feedbackbox").addClass(alertClasses[type]);
+    $_("#feedbackbox").removeClass( "alert-danger alert-info alert-succes alert-warning" );
+    $_("#feedbackbox").addClass(alertClasses[type]);
 }
 
 function hideMsg()
 {
-    $("#feedbackbox").hide();
+    $_("#feedbackbox").hide();
 }
 
 function hideAllMsg()
 {
-    $("#feedbackbox").hide();
-    $("#done").hide();
-    $("#stepsleft").hide();
+    $_("#feedbackbox").hide();
+    $_("#done").hide();
+    $_("#stepsleft").hide();
+    $_("#hints").hide();
 }
 
 function showDone()
 {
-    $("#done").show();
+    $_("#done").show();
 } 
 
 function appendCode(code)
@@ -822,24 +873,24 @@ function resetHintlevel() { hintlevel = -1; }
 
 function setWait(button, waitOn)
 {
-    if ($(button).attr('disabled')) //waiting
+    if ($_(button).attr('disabled')) //waiting
     {
         if (!waitOn) //switch off
         {
-            $(button).children().first().remove();
-            $(button).attr('disabled', false).children().first().show();
+            //$_(button).children().first().remove();
+            $_(button).attr('disabled', false);
         }
     }
     else if (waitOn)
     {
-        $(button).attr('disabled', true).children().first().hide();
-        $(button).prepend('<div class="spinner-border spinner-border-sm"></div>');
+        $_(button).attr('disabled', true);
+        //$_(button).prepend('<div class="spinner-border spinner-border-sm"></div>');
     }
 }
 
 function enableButtons()
 {
-    $(":button").each(function() { setWait(this, false); } );
+    $_(":button").each(function() { setWait(this, false); } );
 }
 
 //-----------------------------------------------------------------------------
@@ -852,7 +903,7 @@ function serviceCall(request, successCallback)
     {
         return;
     }
-    $.ajax({
+    $_.ajax({
        url: DR_URL,
        data: 'input=' + request,
        success: successCallback,
@@ -885,7 +936,7 @@ function retrieveUser()
     {
         userid = storedUserid;
         state.user[0] = userid;
-        $("#useridtext").html('User: ' + userid);
+        $_("#useridtext").html('User: ' + userid);
         return true;
     }
 }

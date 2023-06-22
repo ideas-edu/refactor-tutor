@@ -1,0 +1,16 @@
+{
+  "name": "rpt-www",
+  "version": "1.0.0",
+  "description": "Web frontend for refactor tutor",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@material/web": "^1.0.0-pre.11",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "rollup": "^3.25.1"
+  }
+}

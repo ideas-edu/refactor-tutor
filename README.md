@@ -8,7 +8,7 @@ The Refactor Tutor is a tutoring system that lets students practice with improvi
 The student can ask for hints and feedback at each step.
 
 <p align="center">
-  <img src="https://stanisic.nl/EC.svg" width="800" /><br />
+  <img src="docs/screenshot.png" width="800" /><br />
   A screenshot of the refactor tutor, showing partially expanded feedback.
 </p>
 

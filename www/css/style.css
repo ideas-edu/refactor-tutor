@@ -14,6 +14,9 @@ body {
         
         padding: 0 40px;
         margin: 0;
+
+        background-color: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
 }
 
 nav {
@@ -41,6 +44,10 @@ nav .logo {
 nav .logo svg {
         width: 64px;
         height: 64px; 
+}
+
+nav .logo svg path {
+        fill: var(--md-sys-color-on-surface-variant);
 }
 
 nav .logo h1 {
@@ -123,8 +130,8 @@ nav .logo h1 {
 }
 .card code {
         border-radius: 8px;
-        border: 1px solid rgba(0, 0, 0, 0.30);
-        background: #FFF; 
+        border: 1px solid var(--md-sys-color-outline-variant);
+        background: var(--md-sys-color-surface-container-high); 
         font-family: 'Roboto Mono', monospace;
         padding: 8px;
         display: block;
@@ -160,7 +167,7 @@ main .exercise p {
 }
 
 #editor {
-        border: 1px solid #aaa;
+        border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 12px; 
         flex-grow: 1;
         min-height: 600px;

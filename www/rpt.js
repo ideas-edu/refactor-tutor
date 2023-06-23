@@ -67,8 +67,21 @@ function initRPT() {
     loadExercises();
     
     editor = ace.edit("editor");
-    //editor.setTheme("ace/theme/monokai");
+    
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        editor.setTheme("ace/theme/twilight");
+    }    
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        if(event.matches) {
+            editor.setTheme("ace/theme/twilight");
+        } else {
+            editor.setTheme("ace/theme/textmate");
+        }
+    });
+
     editor.getSession().setMode("ace/mode/java");
+    editor.setShowPrintMargin(false);
     document.getElementById('editor').style.fontSize='14px';
     editor.getSession().on('change', function() {
         currentExState = ExState.busy;
@@ -256,12 +269,6 @@ function exSelected(e)
             console.log(previousSelectedIndex);
             $_("#exlist")[0].selectedIndex = previousSelectedIndex;
         });
-    }
-
-    var id = $_('#exlist')[0].value;
-    if (id != currExId)
-    {
-        $_("#loadex").html("Start exercise");
     }
 
     
@@ -591,21 +598,31 @@ function getallhints(ev)
             $_("[id|='more-0']").hide();
             $_("[id|='l-0']").show(); //show root           
             $_("[id|='l-1']").show(); //show top level   
+
+            // new hint button
             $_("#newhint").click(function() {
                 let left = $_("[id^='alt-']:not(.used)");
                 left.first().click();
                 if(left.length <= 1) {
                     $_("#newhint").hide();
                 }
-            });     
+            });    
             
-             // add handlers 
+            // if there is only one hint hide the button
+            let left = $_("[id^='alt-']:not(.used)");
+            if(left.length == 0) {
+                $_("#newhint").hide();
+            }
+            
+            // add handlers 
             $_("[id|='more']").click(function more (e) {          
                 hintAction(e, Hint.expand, tree, $_(this))             
             });
             $_("[id|='alt']").click(function alt(e) {
                 hintAction(e, Hint.alt, tree)
             });
+
+
 
             $_("#hints").show();
         }   
